@@ -1,6 +1,5 @@
 library(smerc)
 
-
 ## generate population
 ex_pop <- rpois(36,1000000)
 
