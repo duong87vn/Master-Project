@@ -94,7 +94,7 @@ Let $Y_+ = \sum_{i=1}^{N} Y_i$. If we condition on $n_+$, the total number of ob
 		
 				where $ Z^c$ denotes all the regions outside zone Z, and Y() denotes the observed cases within a zone, $E()$is the expected number of cases within a zone and I() is the indicator function. \\ 
 			
-			 A zone is considered as a cluster when its T-value is high enough so that it has to be statistically significant at the 0.05 level. Note that different techniques of picking potential clusters resulted in different T-value thresholds which determine whether clusters are statistically significant or not. For instance, in  method A, a zone has k as its T-value is a cluster; however, in method B, a zone whose T-value is k may not be a cluster.  \\
+			 \textit{Commentary}: A zone is considered as a cluster when its T-value is high enough so that it has to be statistically significant at the 0.05 level. Note that different techniques of picking potential clusters resulted in different T-value thresholds which determine whether clusters are statistically significant or not. For instance, in  method A, a zone has k as its T-value is a cluster; however, in method B, a zone whose T-value is k may not be a cluster.  \\
 			
 			\textbf{Restrictions for a target zone : } As we mentioned earlier, philosophically there are some restrictions for clusters. For each region's centroid , we determine $k$ (nearest) neighbors such that : \\
 				\begin{enumerate}
@@ -343,12 +343,27 @@ U_g = \{ i : G_i > g\}
 
 In this small example,ULS and Flexible methods detected the true clusters with an appropriate setup of some parameters while the Circular method detected two extra regions to be considered as high risk spots. These results are compatible with the New York Leukemia data with respect to the size of clusters. In section 4, we found that the Circular method detected bigger size of clusters comparing to clusters of the other two methods. Thus we might suspect that the Circular method tends to detect more false hot spots than the ULS and Flexible methods. A possible explanation for this observation is in Circular method, candidate zones are in circle shape. Thus, a detected hotspot could include a few false regions if those are in the same zone with other true regions.  
 
-To strengthen our suspicion, we tested another example with true clusters that had different shapes than our first example. We wanted to see how differently each of the methods determine clusters.\\
-Here are two true clusters: \\
+To strengthen our suspicion, we tested another example with true clusters that had different shapes than our first example. We wanted to see if the results are consistent with our assumption about Circular method.\\ 
+The following figure are shown the two true clusters.\\
 \includegraphics[scale=0.2]{ex2_true}\\
+\begin{tabular}{|c|c|}
+	\hline
+	Cluster & Regions \\
+	\hline
+	1 & 19,21,26,31,33 \\
+	2 & 5,10,11,17 \\ \hline
+\end{tabular} \\
 
-And we found 3 clusters using Circular method:\\
+First, we found 3 clusters using Circular method:\\
 \includegraphics[scale=0.2]{Ex2:Circular} \\
+\begin{tabular}{|c|c|}
+	\hline
+	Cluster & Regions \\
+	\hline
+	1 & 19,25,26,31,32,33 \\
+	2 & 5,10,11,12,17 \\ 
+	3 & 21 \\ \hline
+\end{tabular} \\
 
 This results had not surprised us as clusters included three extra regions compare to our true clusters.\\
 
@@ -381,9 +396,12 @@ A Zone & An Induced Connected Sub-graph\\
 
 \end{tabular} \\
 
-Definition*:\\
-True region: regions that belongs to the true clusters. \\ 
-False region: regions that does not belong to the true clusters. \\ 
-Candidate zone: one or more connected regions that is formed while a method is searching for clusters.\\ 
-Candidate pool: a pool that contains all the candidate zone of a method when applied to a specific study area.
+ 	
+\subsection{Definitions:} 
+\begin{itemize}
+\item True region:  region that belongs to the true clusters. \\ 
+\item False region:  region that does not belong to the true clusters. \\ 
+\item Candidate zone:  one or more connected regions that is formed while a method is searching for clusters.\\ 
+\item Candidate pool:  a pool that contains all the candidate zone of a method when applied to a specific study area. \\
+\end{itemize}
 \end{document}
