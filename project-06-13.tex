@@ -155,7 +155,7 @@ Let $Y_+ = \sum_{i=1}^{N} Y_i$. If we condition on $n_+$, the total number of ob
 				
 	
 	The figure below is an demonstration of the scanning process of the Circular Method where region 11 is the original region of the search:\\
-	\includegraphics[scale=0.5]{demo_1} \\
+	\includegraphics[scale=0.45]{demo_1} \\
 	For the radius of 1, regions 10,12,5,17 are the nearest neighbors of region 11.\\
 	Then we increased the radius up to 1.5, regions 4,6,16,18 are the nearest neighbors of region 1.\\
 	In this example,three candidate zones that are formed: \\
@@ -316,11 +316,12 @@ U_g = \{ i : G_i > g\}
 	\end{tabular}	
 	
 	\end{enumerate} 
+	
 	This is the layout of our study area for our small examples:\\
 		\includegraphics[scale=0.3]{Area_layout} \\
 	
 	And the figure below shows the density of the observed cases of each region in the entire study area.\\
-	\includegraphics[scale=0.2]{density_cases}
+	\includegraphics[scale=0.2]{density_cases}\\
 	
 	As we deliberately determined the two true clusters, the closest picture of our study area should have looked like the below graph: \\
 	
@@ -331,9 +332,9 @@ U_g = \{ i : G_i > g\}
 	\subsection{Clusters of Circular Test } 
 	 \includegraphics[scale=0.3]{test_1} \\ The circular method produced two clusters. One had 6 connected regions, and the other one had 3 connected regions. This method detected one true cluster. and it also detected the second true cluster but added two extra region in it. \\
 	\subsection{Clusters of ULS Test}
-	 \includegraphics[scale=0.25]{test_2_01} \\ We found these two cluster using ubpop = 0.1. There were two different clusters as the result. Both clusters comprised three connected regions. But when using ubpop* = 0.2 the two clusters were slightly different which we can see in the below figure:\\
+	 \includegraphics[scale=0.35]{test_2_01} \\ We found these two cluster using ubpop = 0.1. There were two different clusters as the result. Both clusters comprised three connected regions. But when using ubpop* = 0.2 the two clusters were slightly different which we can see in the below figure:\\
 	 
-	 \includegraphics[scale=0.25]{test_2}\\ This result gave us exactly two clusters that we deliberately picked. Thus this method detected the right hot spots when we used an appropriate ubpop.  \\ 
+	 \includegraphics[scale=0.3]{test_2}\\ This result gave us exactly two clusters that we deliberately picked. Thus this method detected the right hot spots when we used an appropriate ubpop.  \\ 
 	\textit{ubpop:} a proportion between 0 and 1 containing the upper bound for the proportion of total population contained collectively among a set of nearest neighbors.\\
 	\subsection{Clusters of Flexible test} 
 	 \includegraphics[scale=0.4]{test_3} \\ We found these two clusters when we ran this test with k=4 which were the true clusters.\\ 
@@ -346,7 +347,8 @@ In this small example,ULS and Flexible methods detected the true clusters with a
 To strengthen our suspicion, we tested another example with true clusters that had different shapes than our first example. We wanted to see if the results are consistent with our assumption about Circular method.\\ 
 The following figure are shown the two true clusters.\\
 \includegraphics[scale=0.2]{ex2_true}\\
-\begin{tabular}{|c|c|}
+
+\hspace{4cm}\begin{tabular}{|c|c|}
 	\hline
 	Cluster & Regions \\
 	\hline
@@ -356,7 +358,8 @@ The following figure are shown the two true clusters.\\
 
 First, we found 3 clusters using Circular method:\\
 \includegraphics[scale=0.2]{Ex2:Circular} \\
-\begin{tabular}{|c|c|}
+
+\hspace{4cm}\begin{tabular}{|c|c|}
 	\hline
 	Cluster & Regions \\
 	\hline
@@ -383,6 +386,7 @@ The ULS method has the least number of candidate zones. Thus it is not quite com
 
 \section{Suggestions for Improvements}
 \section{Glossary}
+\subsection{Technical Terms}
 \begin{tabular}{|c|c|}
 \hline
 \textbf{Statistical Terminology }& \textbf{Graph Theory Terminology} \\
