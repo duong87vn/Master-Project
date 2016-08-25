@@ -53,7 +53,7 @@ kn = poly2nb(sppoly, queen = FALSE)
 listw <- nb2listw(kn, style = "B")
 
 # you would change this to something like:
-# listw <- mat2listw(x), where x is the matrix specifying the neighbors of each region
+listw <- mat2listw(ex_admatrix) #where x is the matrix specifying the neighbors of each region
 plot(listw, coordinates(sppoly))
-
+text(coordinates(sppoly), labels=row.names(sppoly))
 
