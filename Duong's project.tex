@@ -1,8 +1,9 @@
 \documentclass[12pt]{article}
 \linespread{1.3}
 \usepackage{amsmath}
-\usepackage[inner=2cm,outer=1cm]{geometry}
+\usepackage[inner= 1cm,outer=1cm]{geometry}
 \usepackage{graphicx}
+\usepackage{dirtytalk}
 \title{Master Project - Draft }
 \author{Duong Than}
 \date{\today}
@@ -12,13 +13,15 @@
 		\section{Introduction :} 
 		\subsection{Background} 
 
-			Public health officials are interested in finding hot spots where disease's risks are unusually high. They want to have an immediate attention to any disease clusters and also potential disease hot spots in order to implement prevention programs before it is too late. \\ 		
-In such demand, researchers have been studied on different methods to detect disease clusters, and there are many of ideas that approach the use of point and regional count data to come up with an optimized solution. \\
-			\textbf{What is a cluster?} A disease cluster defined as a zone of some connected regions that has an unusually high value of proportion between observed cases and expected cases, t-value, while the probability of anywhere else in the study area has a higher value than t is relatively small. \\
+			Public health officials are interested in finding hotspots where disease risks is unusually high. They want to immediately identify any disease clusters and also potential disease hotspots in order to implement prevention programs before the outbreak turns into an epidemic. \\ 		
 			
-			\textbf{An example of an appearance of disease clusters:} There is a state in America where some disease is seen to have abnormal observed cases in some counties in this state. Public Health officials worry about the uncontrolled spreading of this disease, so they want to know exactly where the observed cases are significant high and where could be the next hot spots. The data of observed cases and population of each region can be assessed. So our ideal solution is to find some zones (could be more than one connected regions) where the observed cases are statistically significant high, and the rest of zones are not statistically significant high. It means if we can find all the connected zones and calculate those statistic tests, we will find the true disease clusters. However, if the number of regions are large, it is not feasible for us to be able to find all the connected regions within the study area. This problem comes down to why we need to come up with clever ways to find some "reasonable " subsets of regions in where it is feasible for us to find all the connected regions (zones). Further more, with respect to statistics, there are some restrictions for our zones. Since we do not want to consider a zone with many regions and with a very large population, so each zone has a limit of number of regions and the total population of each zone has to be less than or equal a half of the entire study area's population. These restrictions help us to reduce the size of possible zones of the entire study area. However; datasets can be varying in many ways, we still need to come up with more leverage methods of finding appropriate zones to detect for clusters. \\       
+			Consequently, researchers have developed different methods to detect disease clusters, and there are many ideas that used developed point and regional count data to come up with an optimized solution. \\
 			
-			\textbf{Objectives:} One of the main purposes of this paper is to compare and contrast these three existing methods. Also we want to approach this problem from a graph theory's point of view. In addition to those, we will propose some improvements based off of these methods. But first, we want to introduce how a dataset is formed in this problem. \\
+			\textbf{What is a hotspot or a cluster?} A disease cluster defined as a collection of connected regions that has an unusually high proportion of observed cases to expected cases.Practically, there are more cases in those regions than we would expect if disease risk is constant over all regions.\\
+			
+			\textbf{An example of an appearance of disease clusters:} There is a state where certain counties  have an abnormally high number of observed cases. Public health officials worry about the uncontrolled spread of this disease, so they want to know exactly where the observed cases are significantly high and where there could be the hotspots. A comparison between the observed cases and the population of each region is made. So our ideal solution is to find some zones (could be more than one connected regions) where the observed cases are significantly large, and the rest of the zones are not significantly high. Ideally, we would consider all connected zones as a hotspot. However, if the number of regions is large, it is not feasible for us to be able to find all the connected regions within the study area. Instead we need to come up with clever ways to find some \say{reasonable} subsets of regions to consider as potential hotspots. Furthermore, with respect to statistics, there are some restrictions for our zones. Since we do not want to consider a zone with many regions and with a very large population,each zone has a limit for the number of regions and the total population of each zone has to be less than or equal a half of the entire study area's population. These restrictions help us to reduce the size of possible zones of the entire study area. However; datasets can be varying in many ways, we still need to come up with more clever methods of finding appropriate zones to detect for clusters. \\       
+			
+			\textbf{Objectives:} One of the main purposes of this paper is to compare and contrast three existing methods for detecting hotspots. Also we want to approach this problem from a graph theory point of view. In addition to this, we will propose some improvements for these methods. But first, we want to introduce the type of data we will consider. \\
 				
 		\subsection{Data Structure:} 
 			In this section, we go into more detail about the data typically observed, standard assumptions about the dataset. 
