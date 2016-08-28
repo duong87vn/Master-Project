@@ -24,16 +24,16 @@
 			\textbf{Objectives:} One of the main purposes of this paper is to compare and contrast three existing methods for detecting hotspots. Also we want to approach this problem from a graph theory point of view. In addition to this, we will propose some improvements for these methods. But first, we want to introduce the type of data we will consider. \\
 				
 		\subsection{Data Structure:} 
-			In this section, we go into more detail about the data typically observed, standard assumptions about the dataset. 
-			The basic form of the data involves a set of \textit{counts observed} (one count for each region ) and a matching set of \textit{counts expected} reporting the number of cases we expect in each region, under the null hypothesis which is everyone in the entire study area has the same constant risk. \\
+			In this section, we go into more detail about the data typically observed and standard assumptions about the dataset. 
+			The basic form of the data involves a set of \textit{counts observed} (one count for each region ) and a matching set of \textit{counts expected} reporting the number of cases we expect in each region, under the null hypothesis that everyone in the entire study area has the same constant risk. \\
 			
 We often assume that the data represent a set of counts arising from a \textbf{Heterogeneous Poisson process}.
-In particular, many methods model the regional counts as independent Poisson random variables based on one of the basic properties of a spatial Poisson process : events counts from non overlapping regions follow independent Poisson distributions where the underlying intensity function defines the expected values ( and variances). Also, spatial data is non negative and discrete which are the two main properties of Poisson distribution. \\
+In particular, many methods model the regional counts as independent Poisson random variables based on one of the basic properties of a spatial Poisson process: event counts from non overlapping regions follow independent Poisson distributions based on an underlying intensity function defining the expected values (and variances). Also, the counts are non negative and discrete, which are the two main properties of Poisson distribution. \\
 			 
 			
 			
-			As an example for the structure of a spatial dataset, we have an access to the Leukemia dataset for 218 regions in New York. This dataset contains 218 observations related to leukemia cases in 8 county areas of the state of New York. The data were made available in Waller and Gotway (2005) and details are provided there. In this paper, we study about geographical regions and their connected neighbors. And 			
-the below graphics is an illustration of a study area and regions in it. For example,we want to look at a center region 83, and we want to study its five nearest neighbors. The algorithm to determine the nearest neighbors is to use the Euclidean distance to find the five centroids that have closest distances to centroid 83. Thus the five nearest regions of region 83 which are 89,90,84,88, and 75, and following figures are an illustration for a region and its nearest neighbors. \\	
+			As an example of the structure of a spatial dataset of regional counts, we consider a Leukemia dataset for 218 regions in New York. This dataset contains 218 observations related to leukemia cases in 8 counties in the state of New York. The data were made available in Waller and Gotway (2005) and details are provided there. In this paper, we study geographical regions and their connected neighbors.		
+The graphics below is illustrats a study area and the regions in it. For example, suppose we want to look at center region 83, and we want to study its five nearest neighbors. The algorithm to determine the nearest neighbors is to use the Euclidean distance to find the five centroids that have closest distances to centroid 83. Thus the five nearest regions of region 83 which are 89,90,84,88, and 75. We successively consider region 83 and its five nearest neighbors in Fifure: \\	
 			
 		\begin{tabular}{|c|c|c|}
 			
