@@ -7,12 +7,12 @@ ex_pop <- rpois(36,1000000)
 ex_cases_1 <- c()
 region <- c(1:36)
 
-clusters_1 <- c(11,12,17)
+clusters_1 <- c(11,12,17,6)
 for ( i in clusters_1) { ex_cases_1[i] <- rpois(1,0.005*ex_pop[i])}
 cluster_2 <- c(32,20,26) ## change 21 to 32
 for ( i in cluster_2) { ex_cases_1[i] <- rpois(1,0.005*ex_pop[i])}
 
-regions_0.2 <- c(4,5,6,10,18,21,24,23,27,15,14)
+regions_0.2 <- c(4,5,10,18,21,24,23,27,15,14)
 for ( i in regions_0.2) { ex_cases_1[i] <- rpois(1,0.002*ex_pop[i])}
 
 regions_0.1 <- c(3,2,1,7,8,9,13,19,16,25,31,33,34,35,36,30,28,29,22)
@@ -76,7 +76,11 @@ for ( i in set1)
     }
   }}
 for ( i in 1:36){ ex_admatrix[,i] <- ex_admatrix[i,]}
-
+for ( i in set4) # add 4 more neighbors to 26 
+{
+  ex_admatrix[26,i] <- 1
+  ex_admatrix[i,26] <- 1
+}
 
 
 ## Circular test
@@ -137,7 +141,7 @@ plot(g)
 # plot not in igraph
 plot(y ~ x, type = "n", data = cen)
 textcol = rep("black", 36)
-textcol[cluster_test1] = "blue"
+textcol[cluster_test2] = "red"
 # textcol[cluster_test2] = "blue"
 
 text(y ~ x, lab = 1:36, data = cen, col = textcol)

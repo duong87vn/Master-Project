@@ -49,7 +49,7 @@ The graphics below is illustrats a study area and the regions in it. For example
 			%\includegraphics[scale=0.2]{centroid.png}	\\
 		\end{tabular}	\\
 			The data $Y_1,Y_2,\dots,Y_N$ in regions $1,2,\dots,N$ are mutually independent Poisson random variables, where $Y_i$ are the observed cases in region $i$. \\ 
-			And the associated population of each region is $n_1,n_2,\dots,n_N$. In this problem, we want to use the counts observed in each region to determined where the risk is unusually high.\\
+			The associated population of each region is $n_1,n_2,\dots,n_N$. In this problem, we want to use the counts observed in each region to determined where the risk is unusually high.\\
 Table below is an example of a dataset, which include region 83 and its five nearest neighbors, was extracted from the Leukemia New York dataset: \\
 
 		\begin{tabular}{|c|c|c|c|}
@@ -68,36 +68,36 @@ Table below is an example of a dataset, which include region 83 and its five nea
 
 			For the most part, methods to assess clusters and clustering in count data assume some background information on the entire population rather than a set of controls. 
 			We divide the entire study area into N regions $ i = \{1,2,\dots,N\}$. \\
-			Since we consider the population sizes $n_1,n_2,\dots,n_N$ fixed ,the total population in the study area is : \\
+			Since we consider the population sizes $n_1,n_2,\dots,n_N$ fixed ,the total population in the study area, \\
 \[
-n_+ = \sum_{i =1}^{N}n_i
+n_+ = \sum_{i =1}^{N}n_i,
 \]
 is also fixed. \\
-Let $Y_+ = \sum_{i=1}^{N} Y_i$. If we condition on $n_+$, the total number of observed cases, we get the probability $ r = \dfrac{Y_+}{n_+}$, which is a fixed constant risk for all the individuals.\\
+Let $Y_+ = \sum_{i=1}^{N} Y_i$. If we condition on $n_+$, the total number of observed cases, we get the probability $ r = \dfrac{Y_+}{n_+}$, which is a fixed constant risk for all the individuals under the constant risk hypothesis (CRH).\\
 		
 			\textbf{Test Hypothesis :} \\ 
-			Let $Z$ be a collection of connected regions which we call zone $Z$. \\
-			We define $Y_+(Z) = \sum_{j \in Z} Y_i$ , and $E(Z) = r*\sum_{i \in Z} n_i$. \\
+			Let $Z$ be a collection of connected regions which we call a zone. \\
+			We define $Y_+(Z) = \sum_{i \in Z} Y_i$ , $n_+(Z)=\sum_{i \in Z} n_i$ and $E(Z) = r*n_+(Z)$. \\
 			
-			\textit{Null hypothesis :} Observed cases of each region equals to its expected number of cases. \\ 
+			\textit{Null hypothesis :} The number of observed cases for each region equals the expected number of cases. \\ 
 			\begin{center}
-			$H_0 : Y_i = E_i$ for all $i$
+			$H_0 : r_i = r$ for all $i$
 			 \end{center}
 			 where $E_i$ are the null expected number of cases in region i. Also, $E_i = r * n_i$.\\
 			
 			
 			\textit{Alternative hypothesis :} There is at least one zone for which the underlying risk is higher when compared to the null hypothesis. \\
  			\begin{center}
-			$H_1$ : $Y_+(Z) \geq E(Z)$. \\
+			$H_1$ : $r \geq r$. \\
 			\end{center}	
 			With the assumption of Poission Process, below is the test statistic of likelihood ratio test for spatial clustering developed by Kulldorff : \\
 				\[
-					T = max_{z\in Z} \bigg[\dfrac{Y_+(Z)}{E(Z)}\bigg]^{Y(Z)} \bigg[\dfrac{Y_+(Z^c)}{E(Z^c)}\bigg]^{Y_+(Z^c)} I\bigg[\dfrac{Y_+(Z)}{E(Z)} > \dfrac{Y_+(Z^c)}{E(Z^c)}\bigg]
+					T = \max_{z\in Z} \bigg[\dfrac{Y_+(Z)}{E(Z)}\bigg]^{Y_+(Z)} \bigg[\dfrac{Y_+(Z^c)}{E(Z^c)}\bigg]^{Y_+(Z^c)} I\bigg[\dfrac{Y_+(Z)}{E(Z)} > \dfrac{Y_+(Z^c)}{E(Z^c)}\bigg]
 				\]	  (1)
 		
-				where $ Z^c$ denotes all the regions outside zone Z, and Y() denotes the observed cases within a zone, $E()$is the expected number of cases within a zone and I() is the indicator function. \\ 
+				where $ Z^c$ denotes all the regions outside zone Z, Y() denotes the observed cases within a zone, and $I()$ is the indicator function. \\ 
 			
-			 \textit{Commentary}: A zone is considered as a cluster when its T-value is high enough so that it has to be statistically significant at the 0.05 level. Note that different techniques of picking potential clusters resulted in different T-value thresholds which determine whether clusters are statistically significant. \\
+			 \textit{Commentary}: A zone is considered as cluster when its T-value is high enough so that it has to be statistically significant at the 0.05 level. Note that different techniques of picking potential clusters resulted in different T-values and T-value thresholds which determine whether clusters are statistically significant. \\
 			 
 			 \textbf{To determine significance:} \\
 			 \begin{enumerate}
@@ -112,9 +112,9 @@ Let $Y_+ = \sum_{i=1}^{N} Y_i$. If we condition on $n_+$, the total number of ob
 					\item The population of zone is less than or equal a half of the entire study area's population. ($n(Z) \leq 0.5(n+)$).\\
 				\end{enumerate}
 			
-				\subsection{The Problem Under Graph Theory's Point of View} 
+				\subsection{The Problem In a Graph Theory Framework} 
 				
-				Since we are working with spatial data, it is interesting to translate this problem into a graph theory problem from which we can use some graph theory's techniques to find clusters. 
+				Since we are working with spatial data, it is interesting to translate this problem into a graph theory problem from which we can use some graph theory techniques to find clusters. 
 				%A centroid of each region is picked at the location where it has the biggest density of population of the region. 
 				
 				Firstly,we want to introduce the problem in graph theory's terminology. We let the entire study area be a graph $G$ where : \\
@@ -124,49 +124,49 @@ Let $Y_+ = \sum_{i=1}^{N} Y_i$. If we condition on $n_+$, the total number of ob
 				\item $E(G)$ is the set of all the two centroids which represent for a pair of regions that share their boarders together. Each edge of $G$ represents for a pair of regions that share boarder together.\\
 				\end{enumerate}
 				
-				Each vertex of $G$ contains information of each region that it represents. For instance  each vertex contains observed cases, expected number of cases and population.
+				Each vertex of $G$ contains information of each region that it represents. For instance  each vertex contains observed cases, expected number of cases, and population.
 				
-				A clusters is some induced connected subgraph $G[H]$ that could give us the maximum value of the statistic test (1). Regardless to which method is used, a cluster is an induced connected subgraph of $G$ and has at least following properties : \\
+				A cluster is some induced connected subgraph $G[H]$ that would give us the maximum value of the test statistic test in(1). Regardless of which method is used, a cluster is an induced connected subgraph of $G$ and has at least following properties : \\
 				\begin{enumerate}
 					
 					\item $|H| \leq k $ where $H$ is the set of vertices of this induced connected subgraph.
 					%\item $ \forall v_i \in  V(G[H]), d(v,v_i) \leq d $
-					\item $n(H) \leq 0.5(n_+)$ where $n(H)$ is the total population of vertices/regions $v_i \in H$. 
+					\item $n(H) \leq 0.5(n_+)$, where $n(H)$ is the total population of vertices/regions $v_i \in H$. 
 				\end{enumerate}
-				Also depend on different methods, there maybe be more properties for induced connected subgraphs that are considered as clusters.\\ 	
+				Also, depending on different methods, there maybe additional constraints for induced connected subgraphs to be considered clusters.\\ 	
 			
-				Combinatorially, there are total $2^ {\binom{N}{2}}$ induced connected subgraphs in $G$. When $N$ is large, it is almost impossible for us to search for clusters within this many number of possible zones. In theory, we are able to find all the induced connected subgraphs of a given graph in order to find true clusters. However, when the graph is large enough, it is not feasible to do so. Thus, the question is: how to find a clever way to search a large enough to make the search computationally feasible but not all number of induced connected subgraphs that would include all the true clusters? That is the reason why researchers have been proposing different methods for this question. The next section will introduce us to the three main existing methods on finding clusters in a reasonable running time of searching.\\
+				Combinatorially, there are total $2^ {\binom{N}{2}}$ induced connected subgraphs in $G$. When $N$ is large, it becomes more difficult to search for clusters within this many number of possible zones. In theory, we are able to find all induced connected subgraphs of a given graph in order to find true clusters. However, when the graph is large enough, it is not feasible to do so. Thus, the question is: How do we find a clever way to search for the induced subgraph that maximizes the test statistic. This is the reason why researchers have proposed different methods for this question. The next section will introduce us to the three existing methods for finding clusters in a reasonable running time of searching.\\
 			
 			
 \section{Existing Methods :} 
 			
-				There are three different spatial scanning methods has been proposed : Circular Scanning Test, Upper Level Set, and Flexible Scanning Test. Those use similar likelihood ratio test to determine which regions could be potential disease clusters using a particular spatial data. However, those approach different ways of forming sets of zones to be tested.\\			
+				We consider three different spatial scanning methods that have proposed : Circular Scanning Test, Upper Level Set, and Flexible Scanning Test. ALl of these methods use the likelihood ratio test to determine which regions could be potential disease clusters using a particular spatial dataset. However, the approaches use different ways of forming sets of zones to be tested. We describe each method in more detail.\\			
 				\begin{enumerate}
-			\item \textbf{Circular Scanning Test} : Kulldorff detected potential clusters (zones) for the study ares by making circles $(C_i)$ whose the center is the centroid of each region $i$, and determine the radius of each circle by using the following steps : \\
+			\item \textbf{Circular Scanning Test} : Kulldorff detected potential clusters (hotspots) for the study area by making circles whose center is the centroid of each region $i$.Iteratively increassing the circle radius to include new regions until necessary constraints are no longer satisfied. 
 	
 			\begin{enumerate}
-				\item Starting at a centroid $i$. 
-				\item Applying a relative small radius of $C_i$ to begin the scanning window. Each scanning window contains a center $i$ of region i ( the centroid of a region i ) with all the regions whose centroids fall into the current circle. 
-				\item Increasing the length of radius of $C_i$ until either the radius meets the max distance or the scanning window contains $k$ regions or the current zone's population exceeds $0.5(n+)$. A new formed zone $(Z_i)$ has the center is the centroid of region $i$ and includes all the regions whose centroid falls into the current circle. 
+				\item Let region $i$ be a zone and calculate the test statistic. 
+				\item Extend the zone to include the nearest neighbors of regions $i$ not included in the zone and compute the test statistic for the new zone. 
+				\item Repeat b until the restrictions mentioned in section 1.3 are no longer satisfied.  
 				\item Applying those steps to every single region of the entire study area to find all the possible candidate zones. 
 			\end{enumerate}  
-		In this method, at each region, we conduct a search around it, and the scanning window can contain a maximum of k regions in it. Thus the total number of possible candidate zones is N*k which is feasible to conduct a search.
-		As the result, the zones with highest T-value and is statistically significant within each scanning window were decided to be clusters. \\
+		In this method, at each region, we conduct a search around it, and the scanning window can contain a maximum of $k$ regions in it. Thus the total number of possible candidate zones is $N(k)$ which is feasible to conduct a search.
+		As a result, the zones with highest T-value, and that are statistically significant within each scanning window are considered clusters. \\
 			
-			There are some advantages of this method. We search for potential clusters using every single regions. We can find all the potential zones in a linear time. For each region we start the search, there are maximum k zones as the results. Thus, there are maximum $n(k)$ running times. However, there are some disadvantages we encounter. We define a hole is a region that has no observed cases. Firstly, there would be holes in zones. Since we determine our potential zones using geographical distance, some holes might be included in some zones which will not help to increase the t-value of those zones. Secondly, the shapes of the zones are most likely to be circles whereas geographical zones can be in more complicated shapes. Thirdly, since we keep increasing the radius of the zone until it meets one of the restrictions, we might neglect a single region as a potential zone itself. \\  
-		In graph theory's point of view, to find all the potential zones, we start a a vertex. From a vertex $v$, we find an induced connected subgraph $G[H]$ with the following properties : \\
+			There are some advantages to this method. We search for potential clusters using every single region. We can find all the potential zones in a linear time. For each region we start the search, there are maximum $k$ zones as a result. Thus, there are maximum $N(k)$ running times. However, there are some disadvantages we encounter. We define a hole is a region that has no observed cases. Firstly, there would be holes in zones. Since we determine our potential zones using geographical distance, some holes might be included in some zones, which will increase the t-value of those zones, but are not hotspots. Secondly, the shapes of the zones are most likely to be circles, whereas geographical zones can be in more complicated shapes. Thirdly, since we keep increasing the radius of the zone until it meets one of the restrictions, we might neglect a single region as a potential zone itself. \\  
+		From a graph theory point of view, to find the potential zones, we start from a vertex. From a vertex $v$, we find the sequence induced connected subgraph $G[H]$ with the following properties : \\
 				\begin{enumerate}
 					
 					\item $|H| \leq k $ 
 					\item $ \forall v_i \in  H, d(v,v_i) \leq d $
 					\item $n(H) \leq 0.5(n_+)$ where $n(H)$ is the total population in centroids $v_i$. 
 				\end{enumerate}   
-				Remark (not sure if this is how they run the test) : For each time we increase the distance from $v$ and there is a new centroid drop in, we calculate the T-test. Then for each center region, we can find the connected zone which has the highest T-value. \\ 
+				 For each time we increase the distance from $v$, the test statistic is computed for each induced subgraph. This is repeated for each vertex. \\ 
 				
 	
 	The figure below is an demonstration of the scanning process of the Circular Method where region 11 is the original region of the search:\\
 	\includegraphics[scale=0.45]{demo_1} \\
-	For the radius of 1, regions 10,12,5,17 are the nearest neighbors of region 11.\\
+	Start with the centroid at region 11., we increase the radius up to 1.5 unit. For the radius of 1, regions 10,12,5,17 are the nearest neighbors of region 11.\\
 	Then we increased the radius up to 1.5, regions 4,6,16,18 are the nearest neighbors of region 1.\\
 	In this example,three candidate zones that are formed: \\
 	\begin{enumerate}
@@ -179,21 +179,21 @@ Let $Y_+ = \sum_{i=1}^{N} Y_i$. If we condition on $n_+$, the total number of ob
 	\end{enumerate}
 	 
 	 \item  \textbf {Upper Level Set (ULS) Scan Statistic :} \\
-			The ULS scan statistic is an adaptive approach in which the parameter space is reduced by using the empirical cell rates
+			The ULS scan statistic is an adaptive approach in which the parameter space is reduced by using the empirical cell rates,
 \[
-			 G_i = \dfrac{Y_i}{n_i}
+			 \hat{r_i} = \dfrac{Y_i}{n_i}
 \]
 			They define the Upper Level Set is the set that comprises all the regions with each level $g$.\\
 			\[
-U_g = \{ i : G_i > g\}
+U_g = \{ i : \hat{r_i} > g\}
 			\]
- Within the each Upper Level Set, they form their target zones as the following: %		process : \\ 
+ Within each Upper Level Set, they form their target zones as the following: \\ 
 				
-				Let $ULS= \{1,2,\dots,t\}$ be the Upper Level Set of regions $i$ such that $G(i) \leq G(j)$ if and only if $i < j$.  
+				Let $ULS= \{1,2,\dots,t\}$ be the Upper Level Set of regions $i$ such that $\hat{r_i} \leq \hat{r_j}$ if and only if $i < j$.  
 				\begin{enumerate}
 					\item Region $1$ is the first zone $Z_1$. 
 					\item If region $2$ connects to region $1$, then $2 \in Z_1$. If region $2$ does not connect with region $1$, then $2$ is $Z_2$. 
-					\item Keep repeating this process until we run out of regions in ULS. \\   
+					\item Keep repeating this process until we run out of regions in the ULS. \\   
 				\end{enumerate}
 			 In this method, the searching is reduced down to only $t$ numbers of regions instead of $N$.The total number of possible zones is less than or equal $t$ which is feasible to conduct a search. And a cluster is a zone within $U_g$ that has the highest T-value and is statistically significant compare to other zones within set $U_g$.\\ 
 		An advantage of this method is the running times while searching is much smaller. There are maximum $t(k)$ times and $t \leq N$. \\	

@@ -44,8 +44,8 @@ ex_pop <- rpois(36,1000000)
 ex_cases_1a <- c()
 region <- c(1:36)
 
-clusters_1a <- c(5,10,11,17)
-for ( i in clusters_1a) { ex_cases_1a[i] <- rpois(1,0.005*ex_pop[i])}
+cluster_1a <- c(5,10,11,17)
+for ( i in cluster_1a) { ex_cases_1a[i] <- rpois(1,0.005*ex_pop[i])}
 cluster_2a <- c(21,19,26,31,33) ## change 21 to 32
 for ( i in cluster_2a) { ex_cases_1a[i] <- rpois(1,0.005*ex_pop[i])}
 
@@ -171,6 +171,65 @@ textcol = rep("black", 36)
 textcol[cluster_test1a] = "blue"
 
 text(y ~ x, lab = 1:36, data = cen, col = textcol)
+
+## new plots from French
+
+library(sp)
+library(spdep)
+library(autoimage)
+library(data.table)
+library(maptools)
+library(fields)
+
+# data.frame containging all grid locations IN TERMS OF POSITION
+g = expand.grid(x = 1:6, y = 1:6)
+
+# a function to create a polygon for each grid point
+create_polys = function(x){
+  xlocs = x[1] + c(-0.5, -0.5, 0.5, 0.5, -0.5)
+  ylocs = x[2] + c(-0.5, 0.5, 0.5, -0.5, -0.5)
+  data.frame(x = c(xlocs, NA), y = c(ylocs, NA))
+}
+
+# create polygon for grid locations
+polys = apply(g, 1, create_polys)
+polys_df = data.table::rbindlist(polys)
+polys_list = list(x = polys_df$x, y = polys_df$y) # convert data frame to list format
+
+# number of regions
+nloc = length(polys)
+
+# color certain polygons
+sppoly <- map2SpatialPolygons(polys_list, IDs = seq_len(nloc))
+
+# create SpatialPolygonsDataFrame
+
+# replace rpois(36, 1000000) with the populations you generated previously
+polydf = SpatialPolygonsDataFrame(sppoly, data = data.frame(pop = rpois(36, 1000000)))
+
+# plot polygons
+plot(sppoly)
+
+# color certain polygons
+mycol = rep("white", nloc)
+# change color of true clusters to a different color
+mycol[cluster_test1a] = "blue"
+#mycol[c(5, 6, 10, 11, 12, 17)] = "orange"
+
+plot(sppoly, col = mycol, main="Clusters of The Circular Method")
+text(coordinates(sppoly), labels=row.names(sppoly)) # name polygons
+
+
+
+
+
+
+
+
+
+
+
+
 ## ULS Method
 
 ratio_a <- c()
@@ -191,6 +250,19 @@ textcol1 = rep("black", 36)
 textcol1[cluster_test2a] = "red"
 
 text(y ~ x, lab = 1:36, data = cen, col = textcol1)
+# new plots from French
+# color certain polygons
+mycol = rep("white", nloc)
+# change color of true clusters to a different color
+mycol[cluster_test2a] = "yellow"
+
+
+plot(sppoly, col = mycol, main="Clusters of The ULS Method")
+text(coordinates(sppoly), labels=row.names(sppoly)) # name polygons
+
+
+
+
 
 ## Flexible Method 
 ## For each time, the window pick one region that is the nearest to the original centroid
@@ -220,4 +292,24 @@ textcol2[clusters_1a] = "green"
 textcol2[cluster_2a] = "green"
 
 text(y ~ x, lab = 1:36, data = cen, col = textcol2)
+# new plots from French
+# color certain polygons
+mycol = rep("white", nloc)
+# change color of true clusters to a different color
+mycol[cluster_test3a] = "red"
 
+
+plot(sppoly, col = mycol, main="Clusters of The Flexible Method")
+text(coordinates(sppoly), labels=row.names(sppoly)) # name polygons
+
+
+
+# true cluster plot
+# color certain polygons
+mycol = rep("white", nloc)
+# change color of true clusters to a different color
+mycol[cluster_1a] = "green"
+mycol[cluster_2a] = "green"
+
+plot(sppoly, col = mycol, main="True Clusters")
+text(coordinates(sppoly), labels=row.names(sppoly)) # name polygons
