@@ -4,7 +4,7 @@
 \usepackage[inner= 1cm,outer=1cm]{geometry}
 \usepackage{graphicx}
 \usepackage{dirtytalk}
-\title{Master Project - Draft }
+\title{Master Project - Comparisons of Scanning Methods and a connection to Graph Theory  }
 \author{Duong Than}
 \date{\today}
 \begin{document}
@@ -142,7 +142,7 @@ Let $Y_+ = \sum_{i=1}^{N} Y_i$. If we condition on $n_+$, the total number of ob
 			
 				We consider three different spatial scanning methods that have proposed : Circular Scanning Test, Upper Level Set, and Flexible Scanning Test. ALl of these methods use the likelihood ratio test to determine which regions could be potential disease clusters using a particular spatial dataset. However, the approaches use different ways of forming sets of zones to be tested. We describe each method in more detail.\\			
 				\begin{enumerate}
-			\item \textbf{Circular Scanning Test} : Kulldorff detected potential clusters (hotspots) for the study area by making circles whose center is the centroid of each region $i$.Iteratively increassing the circle radius to include new regions until necessary constraints are no longer satisfied. 
+			\item \textbf{Circular Scanning Test} : Kulldorff detected potential clusters (hotspots) for the study area by making circles whose center is the centroid of each region $i$.Iteratively increasing the circle radius to include new regions until necessary constraints are no longer satisfied. 
 	
 			\begin{enumerate}
 				\item Let region $i$ be a zone and calculate the test statistic. 
@@ -195,47 +195,34 @@ U_g = \{ i : \hat{r_i} > g\}
 					\item If region $2$ connects to region $1$, then $2 \in Z_1$. If region $2$ does not connect with region $1$, then $2$ is $Z_2$. 
 					\item Keep repeating this process until we run out of regions in the ULS. \\   
 				\end{enumerate}
-			 In this method, the searching is reduced down to only $t$ numbers of regions instead of $N$.The total number of possible zones is less than or equal $t$ which is feasible to conduct a search. And a cluster is a zone within $U_g$ that has the highest T-value and is statistically significant compare to other zones within set $U_g$.\\ 
-		An advantage of this method is the running times while searching is much smaller. There are maximum $t(k)$ times and $t \leq N$. \\	
-		However, there is a disadvantage that we do not take consideration of all regions. Some regions with small $G_i$ values that give large $T-values$. \\
+			 In this method, the searching is reduced down to only $t$ number of regions, where $t$ is the the cardinality of a ULS set, instead of $N$.The total number of possible zones is less than or equal $t$, which is feasible to conduct a search. And a zone is a cluster within $U_g$ if it has the highest T-value and is statistically significant compared to other zones within set $U_g$.\\ 
+		An advantage of this method is the running times while searching can be much smaller. There are maximum $t(k)$ times and $t \leq N$. Note that $k$ is the maximum number of regions included in a zone. \\	
+		However, there is a disadvantage in that we do not consider all regions as starting places.\\
 		
-		If we look at this method under graph theory's point of view , a ULS set is a simple planar graph $H$. And our potential zones are the components $\{C_i\}_{i=1}^{t}$ of $H$. Also, each component $C_i$ has the same properties as each induced connected subgraph $G[H]$ in the circular scanning test. \\  
+		If we look at this method from graph theory point of view, a ULS set is a simple planar graph $H$. And our potential zones are the components $\{C_i\}_{i=1}^{t}$ of $H$. Also, each component $C_i$ has the same properties as each induced connected subgraph $G[H]$ in the circular scanning test. \\  
 				
 	
-	The figure below is a demonstration of the scanning process of the ULS method. We set $g$ equals the mean of the observed cases of the entire study area.\\
+	The figure below is a demonstration of the scanning process of the ULS method. We set $g = \dfrac{Y_+}{n_+}$ .\\
 	\includegraphics[scale=0.5]{demo_2} \\
-	Red regions are regions whose $G_i$ is greater than the mean of the observed cases. As we can see that there are two different candidate zones that we need to look at. Now the total number of regions that we want to search for clusters are only 9 regions instead of 36 regions. This step reduces a significant times of searching for clusters. 
+	Yellow regions are regions whose $G_i$ is greater than g. In this example, there are 9 regions whose $r_i >= g$ which are 17,33,21,10,5,26,31,19, and 11 in the descending order with respect to $r_i$. Firstly, region 17 is the first candidate zone. Then region 33 does not connect to 17, so region 33 creates second candidate zone. Region 21 does not connect to 17 or 33, it forms the third candidate zone. Similarly regions 10 and 5 is the 4th and 5th candidate zone respectively. Since region 26 connects to region 21 and 33, they together form a candidate zone 2*. Region 31 connects to 26, so region 31 belongs to candidate zone 2*. Region 19 also connects to region 26, which implies 19 is included in zone 2*. Finally, region 11 connects to regions 5, 10 and 17. Thus these four regions form a candidate zone 1*. Therefore, as a result we have total 7 number of candidate zones.   
 		\item \textbf{ Flexible Scanning Test:}	\\
 			
-			The flexible scanning test is a different method to pick up potential zones for clusters. In this method,the scanning window of each region i comprises a maximum k regions which includes region i and k-1 nearest neighbors of region i. Within these k regions, a cluster is the zone whose included regions are a subset of the k regions that is connected and has the highest t-value compare to other zones of these k regions. Thus, the potential zones can have a different shape rather than a circle which the author of this method claimed that this method is better than the circular method. \\
+			The flexible scanning test is a different method to pick up potential zones for clusters. In this method,the scanning window of each region $i$ comprises a maximum $k$ regions which includes region $i$ and the $k-1$ nearest neighbors of region i. Within these $k$ regions, a cluster is the zone whose included connected regions are a subset of the $k$ regions and are connected and has the highest test statistic compare to other zones of these $k$ regions. Thus, the potential zones can have a different shape rather than a circle, which the author of this method claims better than the circular method. \\
 			
-				Let $Z_{ik}$ denotes the window composed by the nearest ${k-1}$ neighbors to the region i.Thus all the windows are scanned by the spatial scan statistic are included in the set : \\
+				Let $Z_{ik}$ denote the zone composed region $i$ and its nearest ${k-1}$ neighbors. Windows are scanned by the spatial scan statistic are included in the set : \\
 		\[
 			Z = \{Z_{ik} | 1 \leq i \leq N, 1 \leq k \leq K \}
 		\] 
-				In this method, there are maximum $ N\sum_{i=1}^{k} i $ number of regions that are searched, which makes the clustering searching more feasible. However, $ N\sum_{i=1}^{k} i $ is quite a small number of zones compare to possible $2^{\binom{n}{2}}$ zones we could have in this study area. This raises a concern whether this method is sufficient in searching for clusters or not. \\
+				In this method, there are a maximum $N*$(number of connected zones that include region $i$) number of regions that are searched, which makes the clustering searching slower. However, this is quite a small number of zones compare to possible $2^{\binom{n}{2}}$ zones we could have in this study area. \\
 			
-			In graph theory's language, clusters in this method are induced connected subgraphs of $G$ which have less than or equal k number of vertices. \\
+			In graph theory's language, clusters in this method are induced connected subgraphs of $G$ which have less than or equal $k$ number of vertices, and for which extend no further than $k$ from vertex $i$.\\
 			 	
-		% Under the scanning test, our null and alternative hypothesis are : \\
-			
-		%	$H_0 : E(N(Z)) = a(Z)$ for all Z .\\
-			
-		%	$H_1 : E(N(Z)) > a(Z)$, for some Z. (There is at least one window Z for which the underlying risk is higher inside the window when compared outside.)\\
-		%		where $N()$ is the random number of cases, and $ a()$ is the null expected number of cases. \\
 	
-		%	Under the Poission assumption, the test statistic, which was constructed with the likelihood ratio test, is given by : \\
-				
-		%		\[
-		%			sup_Z(\dfrac{n(Z)}{a(Z)})^{n(Z)} (\dfrac{n(Z^c)}{a(Z^c)})^{n(Z^c)} I(\dfrac{n(Z)}{a(Z)} > \dfrac{n(Z^c)}{a(Z^c)})
-		%		\]	 
-	
-		%		where $ Z^c$ denotes all the regions outside window Z, and n() denotes the observed cases within the specified window, and I() is the indicator function. \\ 
-	The figure below is a demonstration of the scanning process of the Flexible method. Again, the original region is 11, and we set the maximum number of regions for each zone is k=7.\\
+	The figure below is a demonstration of the scanning process of the Flexible method. Again, the original region is 11, and we set the maximum number of regions for each zone is $k=6$.\\
 	\includegraphics[scale=0.5]{demo_3} \\
-	In this demonstration, we choose region 11 as the center region, then pick the first nearest region to 11 is 10,12,5,1. After all then first nearest regions are picked, the second nearest regions are picked and so on until we reach the maximum k. Thus,16 and 18,the second nearest regions to 11 are picked. Note that in this example, we can also pick 4 and 6 instead of 16 and 18. And this could increase the number of searching times. However, in real life, it is almost impossible for two regions to have the same distance to a third one. \\  
+	In this demonstration, we choose region 11 as the center region, then pick the $5$ nearest regions to 11 is 10,12,5,7 and 16. Now we will find all connected zones that include region 11 to be the candidate zones.  \\  
 	
-	In this example, we generated 14 candidate zones which are: \\
+	In this example, we generated $23$ candidate zones which are: \\
 	
 	
 		
@@ -253,11 +240,20 @@ U_g = \{ i : \hat{r_i} > g\}
 		7 & 11,5,12 \\
 		8 & 11,10,17 \\
 		9 & 11,12,17 \\
-		10 & 11,12,17,18 \\
-		11 & 11,10,16,17 \\
-		12 & 5,11,12,17,18 \\
-		13 &  5,11,12,16,17 \\ 
-		14 &   5,10,11,12,16,17,18 \\ 
+		10 & 11,5,17 \\
+		11 & 11,10,12 \\
+		12 & 11,12,17,18 \\
+		13 & 11,12,10,17 \\
+		14 & 11,5,12,17 \\
+		15 & 11,12,5,10 \\
+		16 & 11,5,17,10 \\
+		17 & 11,5,12,18 \\
+		18 & 11,10,12,18 \\
+		19 &  11,12,17,18,5\\ 
+		20 &   11,12,7,18,10 \\
+		21 & 11,10,12,5,18 \\
+		22 & 11,10,5,17,18 \\
+		 23& 11,5,12,10,17 \\
 	\hline
 	\end{tabular}
 	
@@ -310,10 +306,10 @@ U_g = \{ i : \hat{r_i} > g\}
 	\textbf{Circular Scanning Method:} Three clusters have circle-like shapes, and each cluster includes more regions than the other two methods.\\
 	\textbf{ULS Scanning Method:} The shape of the two clusters are different than circles. \\
 	\textbf{Flexible Scanning Method:} The maximum number of regions for each cluster is restricted at 15.	
-	The shapes of clusters in this method are more flexible than the circle shape in Circular Scan Method. These clusters are overlap with clusters in Circular method except it has only two instead of three clusters. \\
+	The shapes of clusters in this method are more flexible than the circle shape in Circular Scan Method. These clusters overlap with clusters from the circular scanning, except it has only two instead of three clusters. \\
 	
 	\section{A Small Example}
-	Although we have an access to the Leukemia dataset, it is easier to contrast the three methods using a smaller scale of dataset and the true clusters are known. This section will help us to see in a smaller example how each method pick up its clusters. So we created a dataset of a study area which had 36 regions. The spatial setup of this dataset is a $6\times6$ grid. The population for each region was randomly generated using Poisson distribution with the mean of 1 million. We picked in advance 2 true clusters. One cluster had 4 connected regions and the other one had 3 connected regions. The observed cases for each region was generated as the following: \\
+	Although we have access to the Leukemia dataset, it is easier to contrast the three methods using a smaller scale dataset for which the true clusters are known. This section will help us to see in a smaller example how each method pick up the clusters. We created a dataset of a study area having 36 regions. The spatial setup of this dataset is a $6\times6$ grid. The population for each region was randomly generated using Poisson distribution with the mean of 1 million. We picked in advance 2 true clusters. One cluster had 4 connected regions and the other one had 3 connected regions. The observed cases for each region was generated as the following: \\
 		
 	\begin{tabular}{|c|c|}
 	\hline
@@ -340,21 +336,21 @@ U_g = \{ i : \hat{r_i} > g\}
 	Then we tested the three methods using this dataset. \\
 	
 	\subsection{Clusters of Circular Test } 
-	 \includegraphics[scale=0.3]{test_1} \\ The circular method produced two clusters. One had 6 connected regions, and the other one had 3 connected regions. This method detected one true cluster. and it also detected the second true cluster but added two extra region in it. \\
+	 \includegraphics[scale=0.3]{test_1} \\ The circular method produced two clusters. One had 6 connected regions, and the other one had 3 connected regions. This method detected one true cluster. and it also detected the second true cluster but added two extra regions to it. \\
 	\subsection{Clusters of ULS Test}
-	 \includegraphics[scale=0.35]{test_2_01} \\ We found these two cluster using ubpop = 0.1. There were two different clusters as the result. Both clusters comprised three connected regions. But when using ubpop* = 0.2 the two clusters were slightly different which we can see in the below figure:\\
+	 \includegraphics[scale=0.35]{test_2_01} \\ The ULS Scanning test detected two clusters using a population upper bound of $10\%$ of the total population(ubpop = 0.1). Both clusters were comprised of three connected regions. But when using a population upper bound of $20\%$ of the total population(ubpop* = 0.2), the two clusters found were slightly different, which we can see in the below figure:\\
 	 
-	 \includegraphics[scale=0.3]{test_2}\\ This result gave us exactly two clusters that we deliberately picked. Thus this method detected the right hot spots when we used an appropriate ubpop.  \\ 
-	\textit{ubpop:} a proportion between 0 and 1 containing the upper bound for the proportion of total population contained collectively among a set of nearest neighbors.\\
+	 \includegraphics[scale=0.3]{test_2}\\ The second sets of results perfectly match the true clusters. Thus this method detected the true hot spots when we used an appropriate population upper bound.  \\ 
+	
 	\subsection{Clusters of Flexible test} 
 	 \includegraphics[scale=0.4]{test_3} \\ We found these two clusters when we ran this test with k=4 which were the true clusters.\\ 
 
 
-\subsection{Conclusion}
+\section{Conclusion}
 
-In this small example,ULS and Flexible methods detected the true clusters with an appropriate setup of some parameters while the Circular method detected two extra regions to be considered as high risk spots. These results are compatible with the New York Leukemia data with respect to the size of clusters. In section 4, we found that the Circular method detected bigger size of clusters comparing to clusters of the other two methods. Thus we might suspect that the Circular method tends to detect more false hot spots than the ULS and Flexible methods. A possible explanation for this observation is in Circular method, candidate zones are in circle shape. Thus, a detected hotspot could include a few false regions if those are in the same zone with other true regions.  
+In this small example,ULS and Flexible scanning tests detected the true clusters with an appropriate setup, while the Circular method detected two extra regions to be considered as hotspots. These results are compatible with the New York Leukemia data with respect to the size of clusters. In section 4, we found that the Circular scanning test detected larger clusters compared to clusters of the other two methods. Thus we might suspect that the Circular method tends to detect more false hot spots than the ULS and Flexible scanning tests. A possible explanation for this observation is that for Circular scanning test, candidate zones are circular shape. Thus, a detected hotspot could include a few false regions if they are in the same circle as the true hotspot.\\  
 
-To strengthen our suspicion, we tested another example with true clusters that had different shapes than our first example. We wanted to see if the results are consistent with our assumption about Circular method.\\ 
+To strengthen our hypothesis, we tested another example with true clusters that had different shapes than our first example. We wanted to see if the results were consistent with our assumption about the Circular scanning test.\\ 
 The following figure are shown the two true clusters.\\
 \includegraphics[scale=0.2]{ex2_true}\\
 
@@ -366,7 +362,7 @@ The following figure are shown the two true clusters.\\
 	2 & 5,10,11,17 \\ \hline
 \end{tabular} \\
 
-First, we found 3 clusters using Circular method:\\
+First, we found 3 clusters using the Circular scanning test:\\
 \includegraphics[scale=0.2]{Ex2:Circular} \\
 
 \hspace{4cm}\begin{tabular}{|c|c|}
@@ -378,23 +374,32 @@ First, we found 3 clusters using Circular method:\\
 	3 & 21 \\ \hline
 \end{tabular} \\
 
-This results had not surprised us as clusters included three extra regions compare to our true clusters.\\
+This results were not surprising us as clusters included three extra regions compared to our true clusters.\\
 
 The next figure illustrates the clusters of ULS method: \\ 
 \includegraphics[scale=0.2]{Ex2:ULS}\\
-With ubop = 0.3, the ULS method picked up the right true clusters.\\
+With a limit of $30 \% $  of the total population (ubop = 0.3), the ULS method picked up the true clusters.\\
 
 And this is the results using Flexible method:\\
-\includegraphics[scale=0.2]{ex2:Flexible}\\
-In this example, in order for Flexible method to pick up the right true clusters, we need to increase $k$ value up to 9 which unexpected since the largest size of our true clusters was five. \\
 
-So there are trade offs between using Circular and Flexible methods. The technique of selecting candidate zones of Circular method and Flexible method are similar since they tend to pick the nearest neighbors of a given center zone. However, using Flexible method, we have more candidates zones, and we can find the true clusters with less risk of including false regions. One withdraw of Flexible method is that it can be difficult to computationally run Flexible method when the study area is big enough. On the other hand, Circular method can help us to search for clusters more quickly, even though we might include some false regions in the results. \\
+% Picture in flow 
+\begin{figure}[!ht]
+	
+\centering
+\includegraphics[scale=0.2]{ex2:Flexible}\\
+\caption{Cluster of the Flexible Scanning Test.\label{f:gull}}
+
+\end{figure}
+
+
+In this example, in order for Flexible scanning test to find true clusters, we needed to increase $k$ up to 9, which was unexpected since the largest size of our true clusters was five. \\
+
+So there are trade offs between using the Circular and Flexible scanning tests. The technique of selecting candidate zones of Circular method and Flexible method are similar since they tend to pick the nearest neighbors of a given center zone. However, using the Flexible scanning test, we have more candidates zones, and we can find the true clusters with less risk of including false regions. One drawback of Flexible scanning test is that it can be difficult to computationally run when the study area is big enough. On the other hand, Circular method can help us to search for clusters more quickly, even though we might include some false regions in the results. \\
    
 The ULS method has the least number of candidate zones. Thus it is not quite comparable to compare and contrast to other two methods. However in our small example, this is the most effective scanning method in searching for the true clusters. \\
 
 
 
-\section{Suggestions for Improvements}
 \section{Glossary}
 \subsection{Technical Terms}
 \begin{tabular}{|c|c|}

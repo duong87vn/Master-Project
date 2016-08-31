@@ -238,10 +238,10 @@ for ( i in 1:36)
   ratio_a[i] <- ex_cases_1a[i]/ex_pop[i]
 }
 ratio_a_list <- c()
-ratio_a_list <- append(ratio_a_list, which(ratio_a >= mean(ratio_a)))
+ratio_a_list <- append(ratio_a_list, which(ratio_a >= sum(ex_cases_1a)/sum(ex_pop)))
 plot(y ~ x, type = "n", data = cen,main="A Demo of The ULS Method")
 textcol1_demo = rep("black", 36)
-textcol1_demo[ratio_a_list] = "red"
+textcol1_demo[ratio_a_list] = "orange"
 text(y ~ x, lab = 1:36, data = cen, col = textcol1_demo)
 
 
