@@ -165,9 +165,17 @@ Let $Y_+ = \sum_{i=1}^{N} Y_i$. If we condition on $n_+$, the total number of ob
 				
 	
 	The figure below is an demonstration of the scanning process of the Circular Method where region 11 is the original region of the search:\\
-	\includegraphics[scale=0.45]{demo_1} \\
-	Start with the centroid at region 11., we increase the radius up to 1.5 unit. For the radius of 1, regions 10,12,5,17 are the nearest neighbors of region 11.\\
-	Then we increased the radius up to 1.5, regions 4,6,16,18 are the nearest neighbors of region 1.\\
+	\begin{figure}[!ht]
+		
+		\centering
+		\includegraphics[scale=0.4]{Demo_Circular}\\
+		\caption{Demonstration for Circular. 
+			Start with the centroid at region 11, we increase the radius up to 1.5 unit. For the radius of 1, regions 10,12,5,17 are the nearest neighbors of region 11.
+			Then we increased the radius up to 1.5, regions 4,6,16,18 are the nearest neighbors of region 1.
+		 \label{f:gull}}
+		
+	\end{figure}
+	
 	In this example,three candidate zones that are formed: \\
 	\begin{enumerate}
 
@@ -203,7 +211,16 @@ U_g = \{ i : \hat{r_i} > g\}
 				
 	
 	The figure below is a demonstration of the scanning process of the ULS method. We set $g = \dfrac{Y_+}{n_+}$ .\\
-	\includegraphics[scale=0.5]{demo_2} \\
+	\begin{figure}[!ht]
+		
+		\centering
+		\includegraphics[scale=0.4]{Demo_ULS}\\
+		\caption{Demonstration for ULS \label{f:gull}}
+		
+	\end{figure}
+	
+	
+	
 	Yellow regions are regions whose $G_i$ is greater than g. In this example, there are 9 regions whose $r_i >= g$ which are 17,33,21,10,5,26,31,19, and 11 in the descending order with respect to $r_i$. Firstly, region 17 is the first candidate zone. Then region 33 does not connect to 17, so region 33 creates second candidate zone. Region 21 does not connect to 17 or 33, it forms the third candidate zone. Similarly regions 10 and 5 is the 4th and 5th candidate zone respectively. Since region 26 connects to region 21 and 33, they together form a candidate zone 2*. Region 31 connects to 26, so region 31 belongs to candidate zone 2*. Region 19 also connects to region 26, which implies 19 is included in zone 2*. Finally, region 11 connects to regions 5, 10 and 17. Thus these four regions form a candidate zone 1*. Therefore, as a result we have total 7 number of candidate zones.   
 		\item \textbf{ Flexible Scanning Test:}	\\
 			
@@ -219,7 +236,16 @@ U_g = \{ i : \hat{r_i} > g\}
 			 	
 	
 	The figure below is a demonstration of the scanning process of the Flexible method. Again, the original region is 11, and we set the maximum number of regions for each zone is $k=6$.\\
-	\includegraphics[scale=0.5]{demo_3} \\
+	\begin{figure}[!ht]
+		
+		\centering
+		\includegraphics[scale=0.4]{Demo_Flexible}\\
+		\caption{Demonstration for Flexible with k=6 \label{f:gull}}
+		
+	\end{figure}
+	
+	
+	
 	In this demonstration, we choose region 11 as the center region, then pick the $5$ nearest regions to 11 is 10,12,5,7 and 16. Now we will find all connected zones that include region 11 to be the candidate zones.  \\  
 	
 	In this example, we generated $23$ candidate zones which are: \\
@@ -322,12 +348,27 @@ U_g = \{ i : \hat{r_i} > g\}
 	\end{tabular}	
 	
 	\end{enumerate} 
+	\begin{figure}[!ht]
+		
+		\centering
+		\includegraphics[scale=0.2]{Area_layout}\\
+		\caption{Study Area layout. This is the layout of our study area for our small examples\label{f:gull}}
+		
+	\end{figure}
 	
 	This is the layout of our study area for our small examples:\\
-		\includegraphics[scale=0.3]{Area_layout} \\
+		
 	
 	And the figure below shows the density of the observed cases of each region in the entire study area.\\
-	\includegraphics[scale=0.2]{density_cases}\\
+	
+	\begin{figure}[!ht]
+		
+		\centering
+		\includegraphics[scale=0.2]{Population}\\
+		\caption{Population size.\label{f:gull}}
+		
+	\end{figure}
+	
 	
 	As we deliberately determined the two true clusters, the closest picture of our study area should have looked like the below graph: \\
 	
@@ -336,14 +377,47 @@ U_g = \{ i : \hat{r_i} > g\}
 	Then we tested the three methods using this dataset. \\
 	
 	\subsection{Clusters of Circular Test } 
-	 \includegraphics[scale=0.3]{test_1} \\ The circular method produced two clusters. One had 6 connected regions, and the other one had 3 connected regions. This method detected one true cluster. and it also detected the second true cluster but added two extra regions to it. \\
-	\subsection{Clusters of ULS Test}
-	 \includegraphics[scale=0.35]{test_2_01} \\ The ULS Scanning test detected two clusters using a population upper bound of $10\%$ of the total population(ubpop = 0.1). Both clusters were comprised of three connected regions. But when using a population upper bound of $20\%$ of the total population(ubpop* = 0.2), the two clusters found were slightly different, which we can see in the below figure:\\
 	 
-	 \includegraphics[scale=0.3]{test_2}\\ The second sets of results perfectly match the true clusters. Thus this method detected the true hot spots when we used an appropriate population upper bound.  \\ 
+	 \begin{figure}[!ht]
+	 	
+	 	\centering
+	 	\includegraphics[scale=0.4]{Ex1_Circular}\\
+	 	\caption{Clusters of Circular Scanning Test.The circular method produced two clusters. One had 6 connected regions, and the other one had 3 connected regions. This method detected one true cluster. and it also detected the second true cluster but added two extra regions to it.\label{f:gull}}
+	 	
+	 \end{figure}
+	 
+	 
+	\subsection{Clusters of ULS Test}
 	
-	\subsection{Clusters of Flexible test} 
-	 \includegraphics[scale=0.4]{test_3} \\ We found these two clusters when we ran this test with k=4 which were the true clusters.\\ 
+	
+	
+		\begin{figure}[!ht]
+			
+			\centering
+			\includegraphics[scale=0.4]{Ex1_ULS}
+			\caption{Clusters of the ULS Scanning Test. This results perfectly match the true clusters. \label{f:gull}}
+			
+		\end{figure}	
+	
+	 \includegraphics[scale=0.35]{Ex1_ULS} \\ The ULS Scanning test detected two clusters using a population upper bound of $10\%$ of the total population(ubpop = 0.1). Both clusters were comprised of three connected regions. But when using a population upper bound of $20\%$ of the total population(ubpop* = 0.2), the two clusters found were slightly different, which we can see in the below figure:\\
+	 
+	 
+	 The second sets of results perfectly match the true clusters. Thus this method detected the true hot spots when we used an appropriate population upper bound.  \\ 
+	
+	 
+	 
+	 
+\subsection{Flexible Scanning Test}	
+
+This ... fix it
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[scale=0.2]{Ex1_Flexible}
+	\caption{Cluster of the Flexible Scanning Test.We found these two clusters when we ran this test with k=4 which were the true clusters.\label{f:gull}}
+\end{figure}
+	
+
+
 
 
 \section{Conclusion}
@@ -352,7 +426,14 @@ In this small example,ULS and Flexible scanning tests detected the true clusters
 
 To strengthen our hypothesis, we tested another example with true clusters that had different shapes than our first example. We wanted to see if the results were consistent with our assumption about the Circular scanning test.\\ 
 The following figure are shown the two true clusters.\\
-\includegraphics[scale=0.2]{ex2_true}\\
+
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[scale=0.2]{Ex2_True}\\
+	\caption{True Clusters. This is the picture of the true clusters in the second examples. \label{f:gull}}
+	
+\end{figure}
+
 
 \hspace{4cm}\begin{tabular}{|c|c|}
 	\hline
@@ -362,23 +443,42 @@ The following figure are shown the two true clusters.\\
 	2 & 5,10,11,17 \\ \hline
 \end{tabular} \\
 
-First, we found 3 clusters using the Circular scanning test:\\
-\includegraphics[scale=0.2]{Ex2:Circular} \\
+First, we found 2 clusters using the Circular scanning test:\\
+
+
+\begin{figure}[!ht]
+	
+	\centering
+	\includegraphics[scale=0.2]{Ex2_Circular}\\
+	\caption{Cluster of the Circular Scanning Test.\label{f:gull}}
+	
+\end{figure}
 
 \hspace{4cm}\begin{tabular}{|c|c|}
 	\hline
 	Cluster & Regions \\
 	\hline
-	1 & 19,25,26,31,32,33 \\
+	1 & 19,25,20,21,26,27,31,32,33 \\
 	2 & 5,10,11,12,17 \\ 
-	3 & 21 \\ \hline
+	 \hline
 \end{tabular} \\
 
-This results were not surprising us as clusters included three extra regions compared to our true clusters.\\
+This results were not surprising us as clusters included five extra regions compared to our true clusters.\\
 
 The next figure illustrates the clusters of ULS method: \\ 
-\includegraphics[scale=0.2]{Ex2:ULS}\\
-With a limit of $30 \% $  of the total population (ubop = 0.3), the ULS method picked up the true clusters.\\
+
+\begin{figure}[!ht]
+	
+	\centering
+	\includegraphics[scale=0.2]{Ex2_ULS}\\
+	\caption{Cluster of the ULS Scanning Test. With a limit of $30 \% $  of the total population (ubop = 0.3), the ULS method picked up the true clusters.\label{f:gull}}
+	
+\end{figure}
+
+
+
+
+
 
 And this is the results using Flexible method:\\
 
@@ -386,13 +486,13 @@ And this is the results using Flexible method:\\
 \begin{figure}[!ht]
 	
 \centering
-\includegraphics[scale=0.2]{ex2:Flexible}\\
-\caption{Cluster of the Flexible Scanning Test.\label{f:gull}}
+\includegraphics[scale=0.2]{Ex2_Flexible}\\
+\caption{Cluster of the Flexible Scanning Test. In this example, in order for Flexible scanning test to find true clusters, we needed to increase $k$ up to 9, which was unexpected since the largest size of our true clusters was five. \label{f:gull}}
 
 \end{figure}
 
 
-In this example, in order for Flexible scanning test to find true clusters, we needed to increase $k$ up to 9, which was unexpected since the largest size of our true clusters was five. \\
+
 
 So there are trade offs between using the Circular and Flexible scanning tests. The technique of selecting candidate zones of Circular method and Flexible method are similar since they tend to pick the nearest neighbors of a given center zone. However, using the Flexible scanning test, we have more candidates zones, and we can find the true clusters with less risk of including false regions. One drawback of Flexible scanning test is that it can be difficult to computationally run when the study area is big enough. On the other hand, Circular method can help us to search for clusters more quickly, even though we might include some false regions in the results. \\
    

@@ -29,7 +29,7 @@ sppoly <- map2SpatialPolygons(polys_list, IDs = seq_len(nloc))
 # create SpatialPolygonsDataFrame
 
 # replace rpois(36, 1000000) with the populations you generated previously
-polydf = SpatialPolygonsDataFrame(sppoly, data = data.frame(pop = rpois(36, 1000000)))
+polydf = SpatialPolygonsDataFrame(sppoly, data = data.frame(pop = ex_pop_kept))
 
 # plot polygons
 plot(sppoly)
@@ -57,3 +57,37 @@ listw <- mat2listw(ex_admatrix) #where x is the matrix specifying the neighbors 
 plot(listw, coordinates(sppoly))
 text(coordinates(sppoly), labels=row.names(sppoly))
 
+
+## Demonstration
+# Flexible
+# color certain polygons
+mycol = rep("white", nloc)
+# change color of true clusters to a different color
+mycol[c(11)] = "green"
+mycol[c(5,10,12,17)] = "blue"
+mycol[c(16)] = "orange"
+
+plot(sppoly, col = mycol)
+text(coordinates(sppoly), labels=row.names(sppoly)) # name polygons
+
+#ULS
+# color certain polygons
+mycol = rep("white", nloc)
+# change color of true clusters to a different color
+mycol[c(21,26,31,33,19)] = "green"
+mycol[c(5,10,17)] = "blue"
+mycol[c(11)] = "orange"
+
+plot(sppoly, col = mycol)
+text(coordinates(sppoly), labels=row.names(sppoly)) # name polygons
+
+#Circular
+# color certain polygons
+mycol = rep("white", nloc)
+# change color of true clusters to a different color
+mycol[c(4,6,16,18)] = "green"
+mycol[c(5,10,17,12)] = "blue"
+mycol[c(11)] = "orange"
+
+plot(sppoly, col = mycol)
+text(coordinates(sppoly), labels=row.names(sppoly)) # name polygons

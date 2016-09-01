@@ -38,22 +38,23 @@ for ( i in set4) # add 4 more neighbors to 26
 }
 
 ## generate population
-ex_pop <- rpois(36,1000000)
-
+#set.seed(123)
+# ex_pop <- rpois(36,1000000) generate the population, then kept it as the same as every time we run the program.
+ex_pop_kept <- ex_pop
 ## generate observed cases for each regions
 ex_cases_1a <- c()
 region <- c(1:36)
 
 cluster_1a <- c(5,10,11,17)
-for ( i in cluster_1a) { ex_cases_1a[i] <- rpois(1,0.005*ex_pop[i])}
+for ( i in cluster_1a) { ex_cases_1a[i] <- rpois(1,0.005*ex_pop_kept[i])}
 cluster_2a <- c(21,19,26,31,33) ## change 21 to 32
-for ( i in cluster_2a) { ex_cases_1a[i] <- rpois(1,0.005*ex_pop[i])}
+for ( i in cluster_2a) { ex_cases_1a[i] <- rpois(1,0.005*ex_pop_kept[i])}
 
 regions_0.2a <- c(4,6,12,16,24,25,23,24,27,15,14)
-for ( i in regions_0.2a) { ex_cases_1a[i] <- rpois(1,0.002*ex_pop[i])}
+for ( i in regions_0.2a) { ex_cases_1a[i] <- rpois(1,0.002*ex_pop_kept[i])}
 
 regions_0.1a <- c(3,2,1,7,8,9,13,18,20,34,35,36,30,32,28,29,22)
-for ( j in regions_0.1a) { ex_cases_1a[j] <- rpois(1,0.001*ex_pop[j])}
+for ( j in regions_0.1a) { ex_cases_1a[j] <- rpois(1,0.001*ex_pop_kept[j])}
 
 ex_matrix_1 <- data.frame(cbind(ex_cases_1a,ex_pop,region))
 
@@ -94,21 +95,21 @@ for ( i in 1:36)
 coor <- cbind(x,y) # x-y coordinate of each region, distance from 1 to 6. 
 
 test1_exa <- scan.test(coor,floor(ex_matrix_1$ex_cases_1a),
-                      ex_matrix_1$ex_pop, nsim = 99,
+                      ex_matrix_1$ex_pop_kept, nsim = 99,
                       alpha = 0.01, lonlat = FALSE)
 
 
 ## ULS test
 
 test2_exa = uls.test(coor,floor(ex_matrix_1$ex_cases_1a),
-                    ex_matrix_1$ex_pop, w = ex_admatrix,
+                    ex_matrix_1$ex_pop_kept, w = ex_admatrix,
                     alpha = 0.01, lonlat =FALSE,
                     nsim = 99, ubpop = 0.3)
 
 ## Flexible test
 test3_exa = flex.test(coor,floor(ex_matrix_1$ex_cases_1a),
                      w = ex_admatrix, k = 9,
-                     ex_matrix_1$ex_pop, nsim = 99,
+                     ex_matrix_1$ex_pop_kept, nsim = 99,
                      alpha = 0.01, lonlat = FALSE)
 ## making up 6x6 grid
 ## making a graph using igraph
@@ -205,8 +206,8 @@ sppoly <- map2SpatialPolygons(polys_list, IDs = seq_len(nloc))
 # create SpatialPolygonsDataFrame
 
 # replace rpois(36, 1000000) with the populations you generated previously
-polydf = SpatialPolygonsDataFrame(sppoly, data = data.frame(pop = rpois(36, 1000000)))
-
+polydf = SpatialPolygonsDataFrame(sppoly, data = data.frame(pop = ex_pop_kept))
+plot(polydf)
 # plot polygons
 plot(sppoly)
 
@@ -216,7 +217,7 @@ mycol = rep("white", nloc)
 mycol[cluster_test1a] = "blue"
 #mycol[c(5, 6, 10, 11, 12, 17)] = "orange"
 
-plot(sppoly, col = mycol, main="Clusters of The Circular Method")
+plot(sppoly, col = mycol, main="Clusters of The Circular Scanning Test")
 text(coordinates(sppoly), labels=row.names(sppoly)) # name polygons
 
 
@@ -231,14 +232,14 @@ text(coordinates(sppoly), labels=row.names(sppoly)) # name polygons
 
 
 ## ULS Method
-
+g <- sum(ex_cases_1a)/sum(ex_pop)
 ratio_a <- c()
 for ( i in 1:36)
 {
-  ratio_a[i] <- ex_cases_1a[i]/ex_pop[i]
+  ratio_a[i] <- ex_cases_1a[i]/ex_pop_kept[i]
 }
 ratio_a_list <- c()
-ratio_a_list <- append(ratio_a_list, which(ratio_a >= sum(ex_cases_1a)/sum(ex_pop)))
+ratio_a_list <- append(ratio_a_list, which(ratio_a >= g))
 plot(y ~ x, type = "n", data = cen,main="A Demo of The ULS Method")
 textcol1_demo = rep("black", 36)
 textcol1_demo[ratio_a_list] = "orange"
@@ -257,7 +258,7 @@ mycol = rep("white", nloc)
 mycol[cluster_test2a] = "yellow"
 
 
-plot(sppoly, col = mycol, main="Clusters of The ULS Method")
+plot(sppoly, col = mycol, main="Clusters of The ULS Scanning Test")
 text(coordinates(sppoly), labels=row.names(sppoly)) # name polygons
 
 
@@ -299,7 +300,7 @@ mycol = rep("white", nloc)
 mycol[cluster_test3a] = "red"
 
 
-plot(sppoly, col = mycol, main="Clusters of The Flexible Method")
+plot(sppoly, col = mycol, main="Clusters of The Flexible Scanning Test, k =9")
 text(coordinates(sppoly), labels=row.names(sppoly)) # name polygons
 
 

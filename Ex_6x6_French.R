@@ -8,17 +8,17 @@ ex_cases_1 <- c()
 region <- c(1:36)
 
 clusters_1 <- c(11,12,17,6)
-for ( i in clusters_1) { ex_cases_1[i] <- rpois(1,0.005*ex_pop[i])}
+for ( i in clusters_1) { ex_cases_1[i] <- rpois(1,0.005*ex_pop_kept_1[i])}
 cluster_2 <- c(32,20,26) ## change 21 to 32
-for ( i in cluster_2) { ex_cases_1[i] <- rpois(1,0.005*ex_pop[i])}
+for ( i in cluster_2) { ex_cases_1[i] <- rpois(1,0.005*ex_pop_kept_1[i])}
 
 regions_0.2 <- c(4,5,10,18,21,24,23,27,15,14)
-for ( i in regions_0.2) { ex_cases_1[i] <- rpois(1,0.002*ex_pop[i])}
+for ( i in regions_0.2) { ex_cases_1[i] <- rpois(1,0.002*ex_pop_kept_1[i])}
 
 regions_0.1 <- c(3,2,1,7,8,9,13,19,16,25,31,33,34,35,36,30,28,29,22)
-for ( j in regions_0.1) { ex_cases_1[j] <- rpois(1,0.001*ex_pop[j])}
+for ( j in regions_0.1) { ex_cases_1[j] <- rpois(1,0.001*ex_pop_kept_1[j])}
 
-ex_matrix_1 <- data.frame(cbind(ex_cases_1,ex_pop,region))
+ex_matrix_1 <- data.frame(cbind(ex_cases_1,ex_pop_kept,region))
 
 
 ## tests for new example
@@ -87,21 +87,21 @@ for ( i in set4) # add 4 more neighbors to 26
 coor <- cbind(x,y) # x-y coordinate of each region, distance from 1 to 6. 
 
 test1_ex <- scan.test(coor,floor(ex_matrix_1$ex_cases_1),
-                      ex_matrix_1$ex_pop, nsim = 99,
+                      ex_matrix_1$ex_pop_kept_1, nsim = 99,
                       alpha = 0.01, lonlat = FALSE)
 
 
 ## ULS test
 
 test2_ex = uls.test(coor,floor(ex_matrix_1$ex_cases_1),
-                    ex_matrix_1$ex_pop, w = ex_admatrix,
+                    ex_matrix_1$ex_pop_kept_1, w = ex_admatrix,
                     alpha = 0.01, lonlat = TRUE,
                     nsim = 99, ubpop = 0.2)
 
 ## Flexible test
 test3_ex = flex.test(coor,floor(ex_matrix_1$ex_cases_1),
                      w = ex_admatrix, k = 4,
-                     ex_matrix_1$ex_pop, nsim = 99,
+                     ex_matrix_1$ex_pop_kept_1, nsim = 99,
                      alpha = 0.01, lonlat = TRUE)
 ## making up 6x6 grid
 ## making a graph using igraph
@@ -130,19 +130,150 @@ for ( i in 1:length(test3_ex$clusters))
 
 plot.igraph(g,vertex.color="yellow")
 ## plot clusters 
-c1 <- cluster_test1
-for ( i in c1)
-  
-{V(g)[i]$color <- "red"} 
+
+## plot Circular 
+## new plots from French
+
+library(sp)
+library(spdep)
+library(autoimage)
+library(data.table)
+library(maptools)
+library(fields)
+
+# data.frame containging all grid locations IN TERMS OF POSITION
+g = expand.grid(x = 1:6, y = 1:6)
+
+# a function to create a polygon for each grid point
+create_polys = function(x){
+  xlocs = x[1] + c(-0.5, -0.5, 0.5, 0.5, -0.5)
+  ylocs = x[2] + c(-0.5, 0.5, 0.5, -0.5, -0.5)
+  data.frame(x = c(xlocs, NA), y = c(ylocs, NA))
+}
+
+# create polygon for grid locations
+polys = apply(g, 1, create_polys)
+polys_df = data.table::rbindlist(polys)
+polys_list = list(x = polys_df$x, y = polys_df$y) # convert data frame to list format
+
+# number of regions
+nloc = length(polys)
+
+# color certain polygons
+sppoly <- map2SpatialPolygons(polys_list, IDs = seq_len(nloc))
+
+# create SpatialPolygonsDataFrame
+
+# replace rpois(36, 1000000) with the populations you generated previously
+polydf = SpatialPolygonsDataFrame(sppoly, data = data.frame(pop = rpois(36, 1000000)))
+
+# plot polygons
+plot(sppoly)
+
+# color certain polygons
+mycol = rep("white", nloc)
+# change color of true clusters to a different color
+mycol[cluster_test1] = "blue"
+#mycol[c(5, 6, 10, 11, 12, 17)] = "orange"
+
+plot(sppoly, col = mycol, main="Clusters of The Circular Scanning Test")
+text(coordinates(sppoly), labels=row.names(sppoly)) # name polygons
 
 
-plot(g)
 
-# plot not in igraph
-plot(y ~ x, type = "n", data = cen)
-textcol = rep("black", 36)
-textcol[cluster_test2] = "red"
-# textcol[cluster_test2] = "blue"
 
-text(y ~ x, lab = 1:36, data = cen, col = textcol)
+## Plot the ULS 
+## new plots from French
 
+library(sp)
+library(spdep)
+library(autoimage)
+library(data.table)
+library(maptools)
+library(fields)
+
+# data.frame containging all grid locations IN TERMS OF POSITION
+g = expand.grid(x = 1:6, y = 1:6)
+
+# a function to create a polygon for each grid point
+create_polys = function(x){
+  xlocs = x[1] + c(-0.5, -0.5, 0.5, 0.5, -0.5)
+  ylocs = x[2] + c(-0.5, 0.5, 0.5, -0.5, -0.5)
+  data.frame(x = c(xlocs, NA), y = c(ylocs, NA))
+}
+
+# create polygon for grid locations
+polys = apply(g, 1, create_polys)
+polys_df = data.table::rbindlist(polys)
+polys_list = list(x = polys_df$x, y = polys_df$y) # convert data frame to list format
+
+# number of regions
+nloc = length(polys)
+
+# color certain polygons
+sppoly <- map2SpatialPolygons(polys_list, IDs = seq_len(nloc))
+
+# create SpatialPolygonsDataFrame
+
+# replace rpois(36, 1000000) with the populations you generated previously
+polydf = SpatialPolygonsDataFrame(sppoly, data = data.frame(pop = rpois(36, 1000000)))
+
+# plot polygons
+plot(sppoly)
+
+# color certain polygons
+mycol = rep("white", nloc)
+# change color of true clusters to a different color
+mycol[cluster_test2] = "blue"
+#mycol[c(5, 6, 10, 11, 12, 17)] = "orange"
+
+plot(sppoly, col = mycol, main="Clusters of The ULS Scanning Test")
+text(coordinates(sppoly), labels=row.names(sppoly)) # name polygons
+
+## Plot for the Flexible 
+## new plots from French
+
+library(sp)
+library(spdep)
+library(autoimage)
+library(data.table)
+library(maptools)
+library(fields)
+
+# data.frame containging all grid locations IN TERMS OF POSITION
+g = expand.grid(x = 1:6, y = 1:6)
+
+# a function to create a polygon for each grid point
+create_polys = function(x){
+  xlocs = x[1] + c(-0.5, -0.5, 0.5, 0.5, -0.5)
+  ylocs = x[2] + c(-0.5, 0.5, 0.5, -0.5, -0.5)
+  data.frame(x = c(xlocs, NA), y = c(ylocs, NA))
+}
+
+# create polygon for grid locations
+polys = apply(g, 1, create_polys)
+polys_df = data.table::rbindlist(polys)
+polys_list = list(x = polys_df$x, y = polys_df$y) # convert data frame to list format
+
+# number of regions
+nloc = length(polys)
+
+# color certain polygons
+sppoly <- map2SpatialPolygons(polys_list, IDs = seq_len(nloc))
+
+# create SpatialPolygonsDataFrame
+
+# replace rpois(36, 1000000) with the populations you generated previously
+polydf = SpatialPolygonsDataFrame(sppoly, data = data.frame(pop = rpois(36, 1000000)))
+
+# plot polygons
+plot(sppoly)
+
+# color certain polygons
+mycol = rep("white", nloc)
+# change color of true clusters to a different color
+mycol[cluster_test3] = "blue"
+#mycol[c(5, 6, 10, 11, 12, 17)] = "orange"
+
+plot(sppoly, col = mycol, main="Cluster of the Flexible Scanning Test")
+text(coordinates(sppoly), labels=row.names(sppoly)) # name polygons
