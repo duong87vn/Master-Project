@@ -1,7 +1,7 @@
 \documentclass[12pt]{article}
 \linespread{1.3}
 \usepackage{amsmath}
-\usepackage[inner= 1cm,outer=1cm]{geometry}
+\usepackage[margin=1in]{geometry}
 \usepackage{graphicx}
 \usepackage{dirtytalk}
 \title{Master Project - Comparing the Spatial Scanning Methods and a Connection to Graph Theory  }
@@ -21,7 +21,7 @@
 			
 			\textbf{An example of an appearance of disease clusters:} There is a state where certain counties  have an abnormally high number of observed cases. Public health officials worry about the uncontrolled spread of this disease, so they want to know exactly where the observed cases are significantly high and where there could be the hotspots. A comparison between the observed cases and the population of each region is made. So our ideal solution is to find some zones (could be more than one connected regions) where the observed cases are significantly large, and the rest of the zones are not significantly high. Ideally, we would consider all connected zones as a hotspot. However, if the number of regions is large, it is not feasible for us to be able to find all the connected regions within the study area. Instead we need to come up with clever ways to find some \say{reasonable} subsets of regions to consider as potential hotspots. Furthermore, with respect to statistics, there are some restrictions for our zones. Since we do not want to consider a zone with many regions and with a very large population,each zone has a limit for the number of regions and the total population of each zone has to be less than or equal a half of the entire study area's population. These restrictions help us to reduce the size of possible zones of the entire study area. However; datasets can be varying in many ways, we still need to come up with more clever methods of finding appropriate zones to detect for clusters. \\       
 			
-			\textbf{Objectives:} One of the main purposes of this paper is to compare and contrast three existing methods for detecting hotspots. Also we want to approach this problem from a graph theory point of view. In addition to this, we will propose some improvements for these methods. But first, we want to introduce the type of data we will consider. \\
+			\textbf{Objectives:} One of the main purposes of this paper is to compare and contrast three existing methods for detecting hotspots. Also we want to approach this problem from a graph theory point of view. In addition to this, we will propose some improvements for these methods. But first, we want to introduce the type of dataset we will consider. \\
 				
 		\subsection{Data Structure:} 
 			In this section, we go into more detail about the data typically observed and standard assumptions about the dataset. 
@@ -88,7 +88,7 @@ Let $Y_+ = \sum_{i=1}^{N} Y_i$. If we condition on $n_+$, the total number of ob
 			
 			\textit{Alternative hypothesis :} There is at least one zone for which the underlying risk is higher when compared to the null hypothesis. \\
  			\begin{center}
-			$H_1$ : $r \geq r$. \\
+			$H_1$ : $r_i \geq r$. \\
 			\end{center}	
 			With the assumption of Poission Process, below is the test statistic of likelihood ratio test for spatial clustering developed by Kulldorff : \\
 				\[
@@ -111,7 +111,7 @@ Let $Y_+ = \sum_{i=1}^{N} Y_i$. If we condition on $n_+$, the total number of ob
 					\item The farthest nearest neighbors from the centroid is less than or equal the max distance $d$ which depends on the dataset. \\ 
 					\item The population of zone is less than or equal a half of the entire study area's population. ($n(Z) \leq 0.5(n+)$).\\
 				\end{enumerate}
-			
+				Note: In this paper, $k$ represents for the maximum number of connected regions in a zone.\\
 				\subsection{The Problem In a Graph Theory Framework} 
 				
 				Since we are working with spatial data, it is interesting to translate this problem into a graph theory problem from which we can use some graph theory techniques to find clusters. 
@@ -121,7 +121,7 @@ Let $Y_+ = \sum_{i=1}^{N} Y_i$. If we condition on $n_+$, the total number of ob
 				\begin{enumerate}
 					
 				\item $V(G)$ is the set of all the centroids. Each vertex of $G$ is a centroid. \\
-				\item $E(G)$ is the set of all the two centroids which represent for a pair of regions that share their boarders together. Each edge of $G$ represents for a pair of regions that share boarder together.\\
+				\item $E(G)$ is the set of all pair of regions that share their boarders together. Each edge of $G$ represents for such pairs.\\
 				\end{enumerate}
 				
 				Each vertex of $G$ contains information of each region that it represents. For instance  each vertex contains observed cases, expected number of cases, and population.
@@ -131,7 +131,7 @@ Let $Y_+ = \sum_{i=1}^{N} Y_i$. If we condition on $n_+$, the total number of ob
 					
 					\item $|H| \leq k $ where $H$ is the set of vertices of this induced connected subgraph.
 					%\item $ \forall v_i \in  V(G[H]), d(v,v_i) \leq d $
-					\item $n(H) \leq 0.5(n_+)$, where $n(H)$ is the total population of vertices/regions $v_i \in H$. 
+					\item $n(H) \leq 0.5(n_+)$, where $n(H)$ is the total population of vertices/regions $v_i \in H$, $k$ is the maximum number of regions in a zone. 
 				\end{enumerate}
 				Also, depending on different methods, there maybe additional constraints for induced connected subgraphs to be considered clusters.\\ 	
 			
@@ -239,7 +239,7 @@ U_g = \{ i : \hat{r_i} > g\}
 	\begin{figure}[!ht]
 		
 		\centering
-		\includegraphics[scale=0.4]{Demo_Flexible}\\
+		\includegraphics[scale=0.2]{Demo_Flexible}\\
 		\caption{Demonstration for Flexible with k=6 \label{f:gull}}
 		
 	\end{figure}
@@ -250,39 +250,35 @@ U_g = \{ i : \hat{r_i} > g\}
 	
 	In this example, we generated $23$ candidate zones which are: \\
 	
-	
+
 		
-	
-	\begin{tabular}{|c|c|}
+	\begin{figure}[!ht]
+\hspace{2cm}\begin{tabular}{|c|c|c|c|}
+
 		\hline
-		Candidate zone & Regions  \\
+		Candidate zone & Regions & Condidate zone & Region \\
 		\hline
-		1 & 11  \\
-		2 & 11,5 \\
-		3 & 11,10 \\
-		4 & 11,12 \\
-		5 & 11, 17 \\
-		6 &  11,5,10 \\
-		7 & 11,5,12 \\
-		8 & 11,10,17 \\
-		9 & 11,12,17 \\
-		10 & 11,5,17 \\
-		11 & 11,10,12 \\
-		12 & 11,12,17,18 \\
-		13 & 11,12,10,17 \\
-		14 & 11,5,12,17 \\
-		15 & 11,12,5,10 \\
-		16 & 11,5,17,10 \\
-		17 & 11,5,12,18 \\
-		18 & 11,10,12,18 \\
-		19 &  11,12,17,18,5\\ 
-		20 &   11,12,7,18,10 \\
-		21 & 11,10,12,5,18 \\
-		22 & 11,10,5,17,18 \\
-		 23& 11,5,12,10,17 \\
-	\hline
-	\end{tabular}
-	
+		1 & 11 & 14 & 11,5,12,17 \\
+		2 & 11,5 & 	15 & 11,12,5,10 \\
+		3 & 11,10 & 16 & 11,5,17,10 \\	
+		4 & 11,12 & 	17 & 11,5,12,18 \\\
+		5 & 11, 17 & 18 & 11,10,12,18  \\
+		6 &  11,5,10 & 19 &  11,12,17,18,5  \\
+		7 & 11,5,12 & 20 &   11,12,7,18,10  \\
+		8 & 11,10,17 & 21 & 11,10,12,5,18 \\
+		9 & 11,12,17  & 22 & 11,10,5,17,18 \\
+		10 & 11,5,17 &   23& 11,5,12,10,17 \\
+		11 & 11,10,12 & &\\
+		12 & 11,12,17,18 & &\\
+		13 & 11,12,10,17 & &\\
+		
+		\hline
+		\end{tabular}
+		
+	\caption{This is the list of the 23 candidate zones generated using the above demonstration. \label{f:gull}}	
+	\end{figure}
+
+\newpage
 	\section{A Contrast of the Three Methods Applied on the Leukemia New York Data}
 	In this section, using the Leukemia New York data, we take a closer look at the differences among these three methods in determining their own clusters. \\
 	The table below shows clusters of each method:\\
@@ -348,16 +344,14 @@ U_g = \{ i : \hat{r_i} > g\}
 	\end{tabular}	
 	
 	\end{enumerate} 
+
+		
+		
 	\begin{figure}[!ht]
-		
-		\centering
-		\includegraphics[scale=0.2]{Area_layout}\\
-		\caption{Study Area layout. This is the layout of our study area for our small examples\label{f:gull}}
-		
-	\end{figure}
-	
-	This is the layout of our study area for our small examples:\\
-		
+	\centering
+	\includegraphics[scale=0.3]{Area_layout}\\
+	\caption{Study Area layout. This is the layout of our study area for our small examples.\label{f:gull}}	
+		\end{figure}
 	
 	And the figure below shows the density of the observed cases of each region in the entire study area.\\
 	
@@ -372,21 +366,25 @@ U_g = \{ i : \hat{r_i} > g\}
 	
 	As we deliberately determined the two true clusters, the closest picture of our study area should have looked like the below graph: \\
 	
-	\includegraphics[scale=0.25]{Ex1_True}\\ where the connected blue nodes were divided into the two separating clusters. \\
-	
+	\begin{figure}[!ht]
+	\centering
+	\includegraphics[scale=0.25]{Ex1_True}\\ 
+	\caption {The true clusters. The connected blue nodes were divided into the two separating clusters.\label{f:gull}}
+	 \end{figure}
+
 	Then we tested the three methods using this dataset. \\
 	
-	\subsection{Clusters of Circular Test } 
+\subsection{Clusters of Circular Test } 
 	 
 	 \begin{figure}[!ht]
 	 	
 	 	\centering
-	 	\includegraphics[scale=0.4]{Ex1_Circular}\\
+	 	\includegraphics[scale=0.2]{Ex1_Circular}\\
 	 	\caption{Clusters of Circular Scanning Test.The circular method produced two clusters. One had 6 connected regions, and the other one had 3 connected regions. This method detected one true cluster. and it also detected the second true cluster but added two extra regions to it.\label{f:gull}}
 	 	
 	 \end{figure}
 	 
-\newpage	 
+	 
 \subsection{Clusters of ULS Test}
 		
 	
@@ -404,7 +402,7 @@ U_g = \{ i : \hat{r_i} > g\}
 	 
 \subsection{Flexible Scanning Test}	
 
-This ... fix it
+
 \begin{figure}[!ht]
 	\centering
 	\includegraphics[scale=0.2]{Ex1_Flexible}
@@ -444,7 +442,7 @@ First, we found 2 clusters using the Circular scanning test:\\
 \begin{figure}[!ht]
 	
 	\centering
-	\includegraphics[scale=0.4]{Ex2_Circular}\\
+	\includegraphics[scale=0.2]{Ex2_Circular}\\
 	\caption{Cluster of the Circular Scanning Test.\label{f:gull}}
 	
 \end{figure}
