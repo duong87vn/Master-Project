@@ -4,7 +4,7 @@
 \usepackage[inner= 1cm,outer=1cm]{geometry}
 \usepackage{graphicx}
 \usepackage{dirtytalk}
-\title{Master Project - Comparisons of Scanning Methods and a connection to Graph Theory  }
+\title{Master Project - Comparing the Spatial Scanning Methods and a Connection to Graph Theory  }
 \author{Duong Than}
 \date{\today}
 \begin{document}
@@ -372,7 +372,7 @@ U_g = \{ i : \hat{r_i} > g\}
 	
 	As we deliberately determined the two true clusters, the closest picture of our study area should have looked like the below graph: \\
 	
-	\includegraphics[scale=0.25]{true_clusters}\\ where the connected green nodes were divided into the two separating clusters. \\
+	\includegraphics[scale=0.25]{Ex1_True}\\ where the connected blue nodes were divided into the two separating clusters. \\
 	
 	Then we tested the three methods using this dataset. \\
 	
@@ -386,26 +386,21 @@ U_g = \{ i : \hat{r_i} > g\}
 	 	
 	 \end{figure}
 	 
-	 
-	\subsection{Clusters of ULS Test}
-	
+\newpage	 
+\subsection{Clusters of ULS Test}
+		
 	
 	
 		\begin{figure}[!ht]
 			
 			\centering
-			\includegraphics[scale=0.4]{Ex1_ULS}
-			\caption{Clusters of the ULS Scanning Test. This results perfectly match the true clusters. \label{f:gull}}
+			\includegraphics[scale=0.2]{Ex1_ULS}
+			\caption{Clusters of the ULS Scanning Test. This method detected two clusters using a population upper bound of $10\%$ of the total population(ubpop = 0.1).This results perfectly match the true clusters. \label{f:gull}}
 			
 		\end{figure}	
 	
-	 \includegraphics[scale=0.35]{Ex1_ULS} \\ The ULS Scanning test detected two clusters using a population upper bound of $10\%$ of the total population(ubpop = 0.1). Both clusters were comprised of three connected regions. But when using a population upper bound of $20\%$ of the total population(ubpop* = 0.2), the two clusters found were slightly different, which we can see in the below figure:\\
-	 
-	 
-	 The second sets of results perfectly match the true clusters. Thus this method detected the true hot spots when we used an appropriate population upper bound.  \\ 
-	
-	 
-	 
+
+		 
 	 
 \subsection{Flexible Scanning Test}	
 
@@ -449,7 +444,7 @@ First, we found 2 clusters using the Circular scanning test:\\
 \begin{figure}[!ht]
 	
 	\centering
-	\includegraphics[scale=0.2]{Ex2_Circular}\\
+	\includegraphics[scale=0.4]{Ex2_Circular}\\
 	\caption{Cluster of the Circular Scanning Test.\label{f:gull}}
 	
 \end{figure}
@@ -477,21 +472,18 @@ The next figure illustrates the clusters of ULS method: \\
 
 
 
-
+\newpage
 
 
 And this is the results using Flexible method:\\
 
 % Picture in flow 
 \begin{figure}[!ht]
-	
 \centering
-\includegraphics[scale=0.2]{Ex2_Flexible}\\
+\includegraphics[scale=0.3]{Ex2_Flexible}\\
 \caption{Cluster of the Flexible Scanning Test. In this example, in order for Flexible scanning test to find true clusters, we needed to increase $k$ up to 9, which was unexpected since the largest size of our true clusters was five. \label{f:gull}}
 
 \end{figure}
-
-
 
 
 So there are trade offs between using the Circular and Flexible scanning tests. The technique of selecting candidate zones of Circular method and Flexible method are similar since they tend to pick the nearest neighbors of a given center zone. However, using the Flexible scanning test, we have more candidates zones, and we can find the true clusters with less risk of including false regions. One drawback of Flexible scanning test is that it can be difficult to computationally run when the study area is big enough. On the other hand, Circular method can help us to search for clusters more quickly, even though we might include some false regions in the results. \\

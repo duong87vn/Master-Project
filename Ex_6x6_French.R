@@ -275,5 +275,5 @@ mycol = rep("white", nloc)
 mycol[cluster_test3] = "blue"
 #mycol[c(5, 6, 10, 11, 12, 17)] = "orange"
 
-plot(sppoly, col = mycol, main="Cluster of the Flexible Scanning Test")
+plot(sppoly, col = mycol, main="Clusters of Flexible Scanning Test")
 text(coordinates(sppoly), labels=row.names(sppoly)) # name polygons
