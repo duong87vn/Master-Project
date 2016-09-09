@@ -33,21 +33,25 @@ In particular, many methods model the regional counts as independent Poisson ran
 			
 			
 			As an example of the structure of a spatial dataset of regional counts, we consider a Leukemia dataset for 218 regions in New York. This dataset contains 218 observations related to leukemia cases in 8 counties in the state of New York. The data were made available in Waller and Gotway (2005) and details are provided there. In this paper, we study geographical regions and their connected neighbors.		
-The graphics below is illustrats a study area and the regions in it. For example, suppose we want to look at center region 83, and we want to study its five nearest neighbors. The algorithm to determine the nearest neighbors is to use the Euclidean distance to find the five centroids that have closest distances to centroid 83. Thus the five nearest regions of region 83 which are 89,90,84,88, and 75. We successively consider region 83 and its five nearest neighbors in Fifure: \\	
-			
+The graphics below is illustrating a study area and the regions in it. For example, suppose we want to look at center region 83, and we want to study its five nearest neighbors. The algorithm to determine the nearest neighbors is to use the Euclidean distance to find the five centroids that have closest distances to centroid 83. Thus the five nearest regions of region 83 which are 89,90,84,88, and 75. We successively consider region 83 and its five nearest neighbors in figure: \\	
+	\newpage
+	
+		\begin{figure}[!ht]	
 		\begin{tabular}{|c|c|c|}
-			
-		\hline
-			\includegraphics[scale=0.2]{nyplot.png}
-			  & \includegraphics[scale=0.2]{ny83.png}
-					&\includegraphics[scale=0.2]{ny89.png} \\ \hline
-						\includegraphics[scale=0.2]{ny90.png}
-							& \includegraphics[scale=0.2]{ny88.png}
-							   & \includegraphics[scale=0.2]{ny84.png} \\ \hline
-									\includegraphics[scale=0.2]{ny75.png} && \\
+			\hline
+			\includegraphics[scale=0.18]{nyplot.png}
+			  & \includegraphics[scale=0.18]{ny83.png}
+					&\includegraphics[scale=0.18]{ny89.png} \\ \hline
+						\includegraphics[scale=0.18]{ny90.png}
+							& \includegraphics[scale=0.18]{ny88.png}
+							   & \includegraphics[scale=0.18]{ny84.png} \\ \hline
+									\includegraphics[scale=0.18]{ny75.png} && \\
 		\hline	
-			%\includegraphics[scale=0.2]{centroid.png}	\\
+		
 		\end{tabular}	\\
+		\caption{Region 83 and its five nearest regions. \label{f:gull}}
+		\end{figure}	
+			\newpage
 			The data $Y_1,Y_2,\dots,Y_N$ in regions $1,2,\dots,N$ are mutually independent Poisson random variables, where $Y_i$ are the observed cases in region $i$. \\ 
 			The associated population of each region is $n_1,n_2,\dots,n_N$. In this problem, we want to use the counts observed in each region to determined where the risk is unusually high.\\
 Table below is an example of a dataset, which include region 83 and its five nearest neighbors, was extracted from the Leukemia New York dataset: \\
@@ -83,7 +87,7 @@ Let $Y_+ = \sum_{i=1}^{N} Y_i$. If we condition on $n_+$, the total number of ob
 			\begin{center}
 			$H_0 : r_i = r$ for all $i$
 			 \end{center}
-			 where $E_i$ are the null expected number of cases in region i. Also, $E_i = r * n_i$.\\
+			
 			
 			
 			\textit{Alternative hypothesis :} There is at least one zone for which the underlying risk is higher when compared to the null hypothesis. \\
@@ -101,10 +105,16 @@ Let $Y_+ = \sum_{i=1}^{N} Y_i$. If we condition on $n_+$, the total number of ob
 			 
 			 \textbf{To determine significance:} \\
 			 \begin{enumerate}
-			 \item Calculate the test statistic of the observed data.	
-			 \item Re-calculate it using a specified number (eg, 99, 499, etc.) of simulated data sets or permuation. This calculation is used to generate the expected distribution of the test statistic under the null hypothesis. 
+			 	
+			 \item First, we generate a certain number (i.e. 99,999,9999,etc ) of simulated datasets under the constant risk hypothesis(CRH).
+			 
+			 \item We calculate the largest test statistic across all candidate zones for each of the sample. This step helps us to form the null distribution of the test statistic.
+			 
+			 \item Next, we calculate the test statistics for the observed data. The statistics are sorted from largest to smallest.  Candidate zones that intersect another candidate zone with a larger test statistic are removed from consideration.\\
+			 
 			 \end{enumerate}
-			 If A zone whose T-value falls into the $5\%$ of the extreme values of the expected distribution of the test statistic, it is statistically significant. \\
+			
+			P-values are calculated for each remaining candidate zone.  The p-value is the probability of observing a more extreme maximal statistic anywhere in the study area.  The p-value for each candidate zone is computed as the proportion of simulated data sets for which the maximum test statistic was at least as large as the observed test statistics.\\
 			
 			\textbf{Restrictions for a target zone : } As we mentioned earlier, philosophically there are some restrictions for clusters. For each region's centroid , we determine $k$ (nearest) neighbors such that : \\
 				\begin{enumerate}
@@ -230,7 +240,7 @@ U_g = \{ i : \hat{r_i} > g\}
 		\[
 			Z = \{Z_{ik} | 1 \leq i \leq N, 1 \leq k \leq K \}
 		\] 
-				In this method, there are a maximum $N*$(number of connected zones that include region $i$) number of regions that are searched, which makes the clustering searching slower. However, this is quite a small number of zones compare to possible $2^{\binom{n}{2}}$ zones we could have in this study area. \\
+				In this method, the maximum number of regions that are searched equals $N*$(number of connected zones that include region $i$ and the total number of regions in them are less or equal $k$) , which makes the clustering searching slower. However, this is quite a small number of zones compare to possible $2^{\binom{n}{2}}$ zones we could have in this study area. \\
 			
 			In graph theory's language, clusters in this method are induced connected subgraphs of $G$ which have less than or equal $k$ number of vertices, and for which extend no further than $k$ from vertex $i$.\\
 			 	
@@ -423,18 +433,22 @@ The following figure are shown the two true clusters.\\
 \begin{figure}[!ht]
 	\centering
 	\includegraphics[scale=0.2]{Ex2_True}\\
-	\caption{True Clusters. This is the picture of the true clusters in the second examples. \label{f:gull}}
+	
+	\begin{tabular}{|c|c|}
+		\hline
+		Cluster & Regions \\
+		\hline
+		1 & 19,21,26,31,33 \\
+		2 & 5,10,11,17 \\ \hline
+	\end{tabular} \\
+	
+	
+	\caption{True Clusters. This is the picture of the true clusters in the second example. \label{f:gull}}
 	
 \end{figure}
 
 
-\hspace{4cm}\begin{tabular}{|c|c|}
-	\hline
-	Cluster & Regions \\
-	\hline
-	1 & 19,21,26,31,33 \\
-	2 & 5,10,11,17 \\ \hline
-\end{tabular} \\
+
 
 First, we found 2 clusters using the Circular scanning test:\\
 
@@ -457,7 +471,7 @@ First, we found 2 clusters using the Circular scanning test:\\
 \end{tabular} \\
 
 This results were not surprising us as clusters included five extra regions compared to our true clusters.\\
-
+\newpage
 The next figure illustrates the clusters of ULS method: \\ 
 
 \begin{figure}[!ht]
@@ -473,7 +487,7 @@ The next figure illustrates the clusters of ULS method: \\
 \newpage
 
 
-And this is the results using Flexible method:\\
+And the results using Flexible method are the following:\\
 
 % Picture in flow 
 \begin{figure}[!ht]
@@ -490,7 +504,7 @@ The ULS method has the least number of candidate zones. Thus it is not quite com
 
 
 
-\section{Glossary}
+\section{Appendix}
 \subsection{Technical Terms}
 \begin{tabular}{|c|c|}
 \hline
@@ -513,4 +527,7 @@ A Zone & An Induced Connected Sub-graph\\
 \item Candidate zone:  one or more connected regions that is formed while a method is searching for clusters.\\ 
 \item Candidate pool:  a pool that contains all the candidate zone of a method when applied to a specific study area. \\
 \end{itemize}
+
+
+
 \end{document}
